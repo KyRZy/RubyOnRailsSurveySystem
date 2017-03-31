@@ -21,6 +21,9 @@ gem 'coffee-rails', '~> 4.2'
 # Poprawka wersjii coffee-script-source
 gem 'coffee-script-source', '~> 1.8.0'
 
+# Devise + Bootstrap
+gem 'devise', '4.2.1'
+gem 'bootstrap-sass'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
