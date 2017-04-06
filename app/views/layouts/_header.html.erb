@@ -9,21 +9,13 @@
       </ul>
       <ul class="nav navbar-nav pull-right">
         <% if administrator_signed_in? %>
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-              <%= current_administrator.name %>
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
+              <li><%= current_administrator.login %></li>
               <li><%= link_to 'Profil', edit_administrator_registration_path %></li>
               <li><%= link_to 'Wyloguj', destroy_administrator_session_path, method: :delete %></li>
-            </ul>
-          </li>
         <% else %>
           <li><%= link_to 'Logowanie', new_administrator_session_path %></li>
           <li><%= link_to 'Rejestracja', new_administrator_registration_path %></li>
         <% end %>
-      </ul>
     </div>
   </div>
 </nav>
