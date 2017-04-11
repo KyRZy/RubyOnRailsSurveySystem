@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @survey.name %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @survey.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @survey.end_date %>
+</p>
+
+<p>
+  <strong>Is opened:</strong>
+  <%= @survey.is_opened %>
+</p>
+
+<p>
+  <strong>Is public:</strong>
+  <%= @survey.is_public %>
+</p>
+
+<p>
+  <strong>Is available for all:</strong>
+  <%= @survey.is_available_for_all %>
+</p>
+
+<p>
+  <strong>Administrator:</strong>
+  <%= @survey.administrator_id %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @survey.category_id %>
+</p>
+
+<%= link_to 'Edit', edit_survey_path(@survey) %> |
+<%= link_to 'Back', surveys_path %>

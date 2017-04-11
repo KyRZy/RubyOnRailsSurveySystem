@@ -1,0 +1,57 @@
+<%= form_for(survey) do |f| %>
+  <% if survey.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(survey.errors.count, "error") %> prohibited this survey from being saved:</h2>
+
+      <ul>
+      <% survey.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :start_date %>
+    <%= f.text_field :start_date %>
+  </div>
+
+  <div class="field">
+    <%= f.label :end_date %>
+    <%= f.text_field :end_date %>
+  </div>
+
+  <div class="field">
+    <%= f.label :is_opened %>
+    <%= f.check_box :is_opened %>
+  </div>
+
+  <div class="field">
+    <%= f.label :is_public %>
+    <%= f.check_box :is_public %>
+  </div>
+
+  <div class="field">
+    <%= f.label :is_available_for_all %>
+    <%= f.check_box :is_available_for_all %>
+  </div>
+
+  <div class="field">
+    <%= f.label :administrator_id %>
+    <%= f.number_field :administrator_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :category_id %>
+    <%= f.number_field :category_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

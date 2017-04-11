@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170411203810) do
+ActiveRecord::Schema.define(version: 20170411211142) do
 
   create_table "administrators", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -35,6 +35,19 @@ ActiveRecord::Schema.define(version: 20170411203810) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "surveys", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.boolean  "is_opened"
+    t.boolean  "is_public"
+    t.boolean  "is_available_for_all"
+    t.integer  "administrator_id"
+    t.integer  "category_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
 end

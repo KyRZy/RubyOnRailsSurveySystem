@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :surveys
   resources :categories
   devise_for :administrators
   get 'static_pages/home'

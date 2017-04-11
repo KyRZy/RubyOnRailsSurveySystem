@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  start_date: 
+  end_date: 
+  is_opened: false
+  is_public: false
+  is_available_for_all: false
+  administrator_id: 1
+  category_id: 1
+
+two:
+  name: MyString
+  start_date: 
+  end_date: 
+  is_opened: false
+  is_public: false
+  is_available_for_all: false
+  administrator_id: 1
+  category_id: 1
