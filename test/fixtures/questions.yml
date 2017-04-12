@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  content: MyText
+  order: 1
+  type: 
+  min_responses: 1
+  max_responses: 1
+  survey_id: 1
+
+two:
+  content: MyText
+  order: 1
+  type: 
+  min_responses: 1
+  max_responses: 1
+  survey_id: 1

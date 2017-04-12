@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @question.content %>
+</p>
+
+<p>
+  <strong>Order:</strong>
+  <%= @question.order %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @question.type %>
+</p>
+
+<p>
+  <strong>Min responses:</strong>
+  <%= @question.min_responses %>
+</p>
+
+<p>
+  <strong>Max responses:</strong>
+  <%= @question.max_responses %>
+</p>
+
+<p>
+  <strong>Survey:</strong>
+  <%= @question.survey_id %>
+</p>
+
+<%= link_to 'Edit', edit_question_path(@question) %> |
+<%= link_to 'Back', questions_path %>
