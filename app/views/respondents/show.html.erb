@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Age:</strong>
+  <%= @respondent.age %>
+</p>
+
+<p>
+  <strong>Sex:</strong>
+  <%= @respondent.sex %>
+</p>
+
+<p>
+  <strong>Education:</strong>
+  <%= @respondent.education %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @respondent.location %>
+</p>
+
+<p>
+  <strong>Ip address:</strong>
+  <%= @respondent.ip_address %>
+</p>
+
+<%= link_to 'Edit', edit_respondent_path(@respondent) %> |
+<%= link_to 'Back', respondents_path %>

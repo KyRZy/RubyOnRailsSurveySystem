@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Respondents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Age</th>
+      <th>Sex</th>
+      <th>Education</th>
+      <th>Location</th>
+      <th>Ip address</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @respondents.each do |respondent| %>
+      <tr>
+        <td><%= respondent.age %></td>
+        <td><%= respondent.sex %></td>
+        <td><%= respondent.education %></td>
+        <td><%= respondent.location %></td>
+        <td><%= respondent.ip_address %></td>
+        <td><%= link_to 'Show', respondent %></td>
+        <td><%= link_to 'Edit', edit_respondent_path(respondent) %></td>
+        <td><%= link_to 'Destroy', respondent, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Respondent', new_respondent_path %>

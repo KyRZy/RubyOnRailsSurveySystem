@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Answer Respondents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Answer</th>
+      <th>Respondent</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @answer_respondents.each do |answer_respondent| %>
+      <tr>
+        <td><%= answer_respondent.answer_id %></td>
+        <td><%= answer_respondent.respondent_id %></td>
+        <td><%= link_to 'Show', answer_respondent %></td>
+        <td><%= link_to 'Edit', edit_answer_respondent_path(answer_respondent) %></td>
+        <td><%= link_to 'Destroy', answer_respondent, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Answer Respondent', new_answer_respondent_path %>

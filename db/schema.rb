@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170412221118) do
+ActiveRecord::Schema.define(version: 20170413122957) do
 
   create_table "administrators", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -31,6 +31,21 @@ ActiveRecord::Schema.define(version: 20170412221118) do
     t.index ["reset_password_token"], name: "index_administrators_on_reset_password_token", unique: true
   end
 
+  create_table "answer_respondents", force: :cascade do |t|
+    t.integer  "answer_id"
+    t.integer  "respondent_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "answers", force: :cascade do |t|
+    t.text     "reply"
+    t.integer  "order"
+    t.integer  "question_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -46,6 +61,16 @@ ActiveRecord::Schema.define(version: 20170412221118) do
     t.integer  "survey_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+  end
+
+  create_table "respondents", force: :cascade do |t|
+    t.string   "age"
+    t.string   "sex"
+    t.string   "education"
+    t.string   "location"
+    t.string   "ip_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "surveys", force: :cascade do |t|
