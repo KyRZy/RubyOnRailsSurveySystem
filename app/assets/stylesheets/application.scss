@@ -17,3 +17,9 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import 'bootstrap/theme';
+
+@media (max-width: 768px) {
+    ul.pull-right {
+        float: none !important;
+    }
+}
