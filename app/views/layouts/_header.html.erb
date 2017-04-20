@@ -16,6 +16,7 @@
       
 		<ul class="nav navbar-nav pull-right">
         <% if administrator_signed_in? %>
+              <li><%= link_to 'Nowa ankieta', new_survey_path %></li>
               <li><%= link_to 'Profil', edit_administrator_registration_path %></li>
               <li><%= link_to 'Wyloguj', destroy_administrator_session_path, method: :delete %></li>
         <% else %>
