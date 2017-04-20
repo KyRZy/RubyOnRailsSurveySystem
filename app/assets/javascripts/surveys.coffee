@@ -8,5 +8,6 @@ $(document).ready ->
 
     $(document).on("focus", "#survey > .row > .answers > input", ( -> 
         if $(this).is($(this).parent().find("input:last"))
+            $(this).attr("placeholder","").removeClass("pressForNewAnswer")
             $(this).parent().append($("#new_answer").html())
     ))
