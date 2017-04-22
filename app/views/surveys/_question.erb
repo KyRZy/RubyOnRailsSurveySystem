@@ -1,10 +1,19 @@
 <div class="row">
      <%= label_tag "Pytanie" %>
      <br>
-     <%= text_field_tag "questions[]", nil, placeholder: 'Pytanie', class: "form-control question" %>
+     <div class="input-group input-group-lg question">
+        <span class="input-group-addon"><strong>1.</strong></span>
+        <%= text_field_tag "questions[]", nil, placeholder: 'Pytanie', class: "form-control question" %>
+     </div>
      <div class="answers">
-        <%= text_field_tag "todo", nil, class: "form-control answer" %>
-        <%= text_field_tag "todo", nil,  class: "form-control answer" %>
-        <%= render 'answer' %>
+        <div class="input-group answer">
+            <span class="input-group-addon">1.</span>
+            <%= text_field_tag "todo", nil, class: "form-control" %>
+        </div>
+        <div class="input-group answer">
+            <span class="input-group-addon">2.</span>
+            <%= text_field_tag "todo", nil, class: "form-control" %>
+        </div>
+        <%= render "answer" %>
      </div>
 </div>

@@ -1,1 +1,4 @@
-<%= text_field_tag "todo", nil, placeholder: 'Naciśnij, jeśli chcesz dodać odpowiedź', class: "form-control answer pressForNewAnswer" %>
+<div class="input-group answer">
+    <span class="input-group-addon hidden">1.</span>
+    <%= text_field_tag "todo", nil, placeholder: 'Naciśnij, jeśli chcesz dodać odpowiedź', class: "form-control pressForNewAnswer" %>
+</div>
