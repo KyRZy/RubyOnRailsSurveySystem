@@ -12,9 +12,9 @@ $(document).ready ->
         if $(this).is($(this).parent().find("input:last"))
             $(this).attr("placeholder","").removeClass("pressForNewAnswer")
 
-            numberString = $(this).parent().prev().children("span").html()
-            number = parseFloat(numberString.substring(0,numberString.length-1))
-            $(this).prev().removeClass("hidden").html(number+1+".")
+            answerNumberString = $(this).parent().prev().children("span").html()
+            answerNumber = parseFloat(answerNumberString.substring(0,answerNumberString.length-1))
+            $(this).prev().removeClass("hidden").html(answerNumber+1+".")
 
             $(this).parent().parent().append($("#new_answer").html())
     ))
