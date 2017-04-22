@@ -3,11 +3,10 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready ->
+    number = 1
     $("#add_new_question").on "click", ->
-        numberString = $("#survey").last().find("strong").html()
-        number = parseFloat(numberString.substring(0,numberString.length-1))
         $("#survey").append($("#new_question").html())
-        $("#survey").last().find("strong").html(number+1+".")
+        $("#survey").children().last().find("strong").html((++number)+".")
 
     $(document).on("focus", "#survey > .row > .answers > .answer > input", ( -> 
         if $(this).is($(this).parent().find("input:last"))
