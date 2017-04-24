@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$(document).ready ->
+$(document).on "turbolinks:load", ->
     number = 1
     $("#add_new_question").on "click", ->
         $("#survey").append($("#new_question").html()) # dodanie nowego pytania do formularza
