@@ -3,14 +3,18 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on "turbolinks:load", ->
-    number = 1
-    $("#add_new_question").on "click", ->
+    number = 1 # liczba pytań w ankiecie
+    $("#add_new_question").on "click", -> # dodanie nowego pytania
         $("#survey").append($("#new_question").html()) # dodanie nowego pytania do formularza
-        $("#survey").children().last().find("strong").html((++number)+".") # dopisanie kolejnej liczby do nowego pytania
+        $("#survey").children(":last").children(".answers").children(":not(:last-child)").children("input").attr("name","answers["+number+"][]") # dodanie odpowiedniego indekstu do nazw inputów
+        $("#survey").children(":last").find("strong").html((++number)+".") # dopisanie kolejnej liczby do nowego pytania
 
-    $(document).on("focus", "#survey > .row > .answers > .answer > input", ( -> 
+    $(document).on("focus", "#survey > .row > .answers > .answer > input", ( -> # dodanie nowej odpowiedzi
         if $(this).is($(this).parent().parent().find("input:last")) # jeśli naciśnięte zostało ostatnie pole na odpowiedź
             $(this).attr("placeholder","").removeClass("pressForNewAnswer") # zmiana placeholdera, usunięcie przeźroczystości
+
+            name = $(this).parent().prev().children("input").attr("name") # odczytanie nazwy poprzedniego inputu
+            $(this).attr("name",name) # ustawienie odczytanej nazwy inputu do dodanej odpowiedzi
 
             answerNumberString = $(this).parent().prev().children("span").html() # odczytanie numeru z ostatniej odpowiedzi tego pytania
             answerNumber = parseFloat(answerNumberString.substring(0,answerNumberString.length-1)) # usunięcie kropki i parsowanie do integer
@@ -20,14 +24,16 @@ $(document).on "turbolinks:load", ->
     ))
     $(document).on("click", ".remove-question", ( -> 
         question = $(this).parent().parent().parent().parent() # zapisanie div'a z klasą row zawierającego pytanie i wszystkie odpowiedzi do zmiennej question
-        if question.siblings(":last").find("strong").html() # jeśli ankieta zawiera więcej niż jedno pytanie
+        if number > 1 # jeśli ankieta zawiera więcej niż jedno pytanie
             while question.next().length # jeśli ankieta zawiera jakieś kolejne pytanie
                 question = question.next() # zapisanie kolejnego pytanie do zmiennej
                 questionNumberString = question.find("span").first().children("strong").html() # odczytanie numeru tego pytania 
                 questionNumber = parseFloat(questionNumberString.substring(0,questionNumberString.length-1)) # usunięcie kropki i parsowanie do integer
                 question.find("span").first().children("strong").html((questionNumber-1)+".") # zmniejszenie numeru pytania o 1
+
+                question.children(".answers").children(":not(:last-child)").children("input").attr("name","answers["+(questionNumber-2)+"][]") # zmniejszenie indeksu tabeli 2-wymiarowej w nazwie inputu
             $(this).parent().parent().parent().parent().remove() # usunięcie oryginalnego pytania
-            number--
+            number-- # zmniejszenie liczby reprezentującej liczbę pytań w ankiecie
     ))
 
     $(document).on("click", ".remove-answer", ( ->
