@@ -8,9 +8,10 @@ $(document).on "turbolinks:load", ->
         $("#survey").append($("#new_question").html()) # dodanie nowego pytania do formularza
         $("#survey").children(":last").children(".answers").children(":not(:last-child)").children("input").attr("name","answers["+number+"][]") # dodanie odpowiedniego indekstu do nazw inputów
         $("#survey").children(":last").find("strong").html((++number)+".") # dopisanie kolejnej liczby do nowego pytania
+        $("html, body").animate({ scrollTop: $(document).height() }, 500); # zescrollowanie do nowo dodanego pytania
 
-    $(document).on("focus", "#survey > .row > .answers > .answer > input", ( -> # dodanie nowej odpowiedzi
-        if $(this).is($(this).parent().parent().find("input:last")) # jeśli naciśnięte zostało ostatnie pole na odpowiedź
+    $("#survey").on "click", "input", ( -> # dodanie nowej odpowiedzi
+        if $(this).parent().hasClass("answer") && $(this).is($(this).parent().parent().find("input:last")) # jeśli naciśnięte zostało ostatnie pole na odpowiedź
             $(this).attr("placeholder","").removeClass("pressForNewAnswer") # zmiana placeholdera, usunięcie przeźroczystości
 
             name = $(this).parent().prev().children("input").attr("name") # odczytanie nazwy poprzedniego inputu
@@ -21,8 +22,8 @@ $(document).on "turbolinks:load", ->
             $(this).prev().removeClass("hidden").html(answerNumber+1+".") # dodanie numeru do odpowiedzi
             $(this).next().removeClass("hidden") # wyświetlenie przycisku usuwającego odpowiedź
             $(this).parent().parent().append($("#new_answer").html()) # dodanie nowego pola na odpowiedź
-    ))
-    $(document).on("click", ".remove-question", ( -> 
+    )
+    $("#survey").on "click", ".remove-question", ( -> 
         question = $(this).parent().parent().parent().parent() # zapisanie div'a z klasą row zawierającego pytanie i wszystkie odpowiedzi do zmiennej question
         if number > 1 # jeśli ankieta zawiera więcej niż jedno pytanie
             while question.next().length # jeśli ankieta zawiera jakieś kolejne pytanie
@@ -34,9 +35,9 @@ $(document).on "turbolinks:load", ->
                 question.children(".answers").children(":not(:last-child)").children("input").attr("name","answers["+(questionNumber-2)+"][]") # zmniejszenie indeksu tabeli 2-wymiarowej w nazwie inputu
             $(this).parent().parent().parent().parent().remove() # usunięcie oryginalnego pytania
             number-- # zmniejszenie liczby reprezentującej liczbę pytań w ankiecie
-    ))
+    )
 
-    $(document).on("click", ".remove-answer", ( ->
+    $("#survey").on "click", ".remove-answer", ( ->
         answerNumberString = $(this).parent().parent().siblings(":last").prev().children("span").first().html() # sprawdzenie numeru ostatniej odpowiedzi tego pytania
         if !(answerNumberString == "1." || answerNumberString == "2.") # jeśli pytanie ma więcej niż 2 odpowiedzi
             answer = $(this).parent().parent() # zapisanie diva zawierającego input na tekst oraz span'y z numerem pytania i przyciskiem X do zmiennej answer
@@ -46,5 +47,5 @@ $(document).on "turbolinks:load", ->
                 answerNumber = parseFloat(answerNumberString.substring(0,answerNumberString.length-1)) # usunięcie kropki i parsowanie do integer
                 answer.children("span").first().html((answerNumber-1)+".") # zmniejszenie numeru odpowiedzi o 1
             $(this).parent().parent().remove() # usunięcie oryginalnej odpowiedzi
-    ))
+    )
     $('body').tooltip(selector: '[data-toggle=tooltip]') # włączenie podpowiedzi pojawiających się po najechaniu na przyciski X przy pytaniach i odpowiedziach

@@ -1,25 +1,27 @@
-<div class="row">
-    <h1>Nowa ankieta</h1>
-</div>
-
-<%= form_for(@survey, remote: true, format: :json, html: {class: :survey_form} ) do |f| %>
-
-    <div id="survey">
-        <%= render 'question' %>
-    </div>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-offset-1 col-lg-10 col-lg-offset-1">
     <div class="row">
-        <a href="javascript:;" id="add_new_question">Nowe Pytanie</a>
-
-        <div>
-            <%= hidden_field_tag :administrator_id, current_administrator.id %>
-            <%= f.submit "Zapisz ankietę"%>
-        </div>
+        <h1>Nowa ankieta</h1>
     </div>
-    <% end %>
 
-        <div style="display: none;" id="new_question">
+    <%= form_for(@survey, remote: true, format: :json, html: {class: :survey_form} ) do |f| %>
+
+        <div id="survey">
             <%= render 'question' %>
         </div>
-        <div style="display: none;" id="new_answer">
-            <%= render 'answer' %>
+        <div class="row">
+            <a href="javascript:;" id="add_new_question">Nowe Pytanie</a>
+
+            <div>
+                <%= hidden_field_tag :administrator_id, current_administrator.id %>
+                    <%= f.submit "Zapisz ankietę"%>
+            </div>
         </div>
+        <% end %>
+
+            <div style="display: none;" id="new_question">
+                <%= render 'question' %>
+            </div>
+            <div style="display: none;" id="new_answer">
+                <%= render 'answer' %>
+            </div>
+</div>
