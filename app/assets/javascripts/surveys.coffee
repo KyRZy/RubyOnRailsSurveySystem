@@ -48,5 +48,11 @@ $(document).on "turbolinks:load", ->
                 answer.children("span").first().html((answerNumber-1)+".") # zmniejszenie numeru odpowiedzi o 1
             $(this).parent().parent().remove() # usunięcie oryginalnej odpowiedzi
     )
+    $("#survey_is_available_for_all").on "click", ->
+        $("#survey_is_public").prop('checked', true)
+        
+    $("#survey_is_public").on "click", ->
+        $("#survey_is_available_for_all").prop('checked', false)
+
     $('body').tooltip(selector: '[data-toggle=tooltip]') # włączenie podpowiedzi pojawiających się po najechaniu na przyciski X przy pytaniach i odpowiedziach
     $('#survey_start_date, #survey_end_date').datetimepicker({locale: 'pl', format: 'LL'});
