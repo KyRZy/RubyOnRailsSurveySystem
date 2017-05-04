@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504185519) do
+ActiveRecord::Schema.define(version: 20170504191412) do
 
   create_table "administrators", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 20170504185519) do
   create_table "questions", force: :cascade do |t|
     t.text     "content"
     t.integer  "order"
-    t.string   "type"
+    t.string   "question_type"
     t.integer  "min_responses"
     t.integer  "max_responses"
     t.integer  "survey_id"
