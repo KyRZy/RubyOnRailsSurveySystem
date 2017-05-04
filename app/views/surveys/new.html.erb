@@ -6,6 +6,26 @@
     <%= form_for(@survey, remote: true, format: :json, html: {class: :survey_form} ) do |f| %>
 
         <div id="survey">
+            <div id="survey-name" class="input-group input-group-lg">
+                <%= f.text_field :name, class: "form-control", placeholder: 'Nazwa ankiety' %>
+            </div>
+            <div id="survey-checkboxes">
+                <div id="survey-checkboxes-title">
+                    Ankietowani mają być pytani o:
+                </div>
+                <div class="checkbox">
+                <%= f.check_box :is_age_required %> wiek
+                </div>
+                <div class="checkbox">
+                <%= f.check_box :is_sex_required %> płeć
+                </div>
+                <div class="checkbox">
+                <%= f.check_box :is_education_required %> wykształcenie
+                </div>
+                <div class="checkbox">
+                <%= f.check_box :is_location_required %> zamieszkanie
+                </div>
+            </div>
             <%= render 'question' %>
         </div>
         <div class="row">
