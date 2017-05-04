@@ -9,8 +9,16 @@
             <div id="survey-name" class="input-group input-group-lg">
                 <%= f.text_field :name, class: "form-control", placeholder: 'Nazwa ankiety' %>
             </div>
+            <div class="row start-date">
+                <div class="header-text">Data rozpoczęcia</div>
+                <%= f.text_field :start_date, class: "form-control", placeholder: 'Data rozpoczęcia' %>
+            </div>
+            <div class="row end-date">
+                <div class="header-text">Data zakończenia</div>
+                <%= f.text_field :end_date, class: "form-control", placeholder: 'Data zakończenia' %>
+            </div>
             <div id="survey-checkboxes">
-                <div id="survey-checkboxes-title">
+                <div class="header-text">
                     Ankietowani mają być pytani o:
                 </div>
                 <div class="checkbox">
