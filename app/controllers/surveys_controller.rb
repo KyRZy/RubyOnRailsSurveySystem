@@ -26,18 +26,18 @@ class SurveysController < ApplicationController
   # POST /surveys.json
   def create
     @survey = Survey.new(survey_params)
-	@survey.administrator_id = params[:administrator_id]
+	@survey.administrator_id = 2#params[:administrator_id]
 	
 	question_param = params[:questions]
 	answer_param = params[:answers]
 	
 	question_param.each.with_index do |content, index_q|
-		question = Question.create(:content => content, :order => index_q)
+		question = Question.create(:content => content, :order => index_q, :survey_id => params[:survey][:name])
 		#@questions.push(question)
-		#question.save
-		answer_param.each.with_index do |answer, index_a|
-			Answer.create(:reply => answer, :order => index_a, :question_id => index_q)
-		end
+		#question.answers.create(answer_param)
+		#answer_param.each.with_index { |answer, index_a|
+			#Answer.create(:reply => answer, :order => index_a, :question_id => index_q)
+		#}
 	end
 	#@survey.questions = questions
 	
@@ -54,12 +54,12 @@ class SurveysController < ApplicationController
 	#@survey.end_date = params[:survey][:end_date]	
 	
     respond_to do |format|
-      if @survey.save
+      if @survey.save!
         format.html { redirect_to @survey, notice: 'Survey was successfully created.' }
         format.json { render :show, status: :created, location: @survey }
       else
         format.html { render :new }
-        format.json { render json: @survey.errors, status: :unprocessable_entity}
+        format.json { render json: @survey.errors.full_messages, status: :unprocessable_entity}
       end
     end
   end
