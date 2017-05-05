@@ -17,7 +17,7 @@
                 <div class="header-text">Data zakończenia</div>
                 <%= f.text_field :end_date, class: "form-control", placeholder: 'Data zakończenia' %>
             </div>
-            <div class="category-dropdown">
+            <div class="row category-dropdown">
                 <div class="header-text">
                     Kategoria:
                 </div>
@@ -25,7 +25,7 @@
                     <%= f.collection_select(:category_id, Category.all, :id, :name, {}, {:class=>"form-control category"}) %>
                 </div>
             </div>
-            <div class="survey-checkboxes">
+            <div class="row survey-checkboxes">
                 <div class="header-text">
                     Ankietowani mają być pytani o:
                 </div>
@@ -42,7 +42,7 @@
                 <%= f.check_box :is_location_required %> zamieszkanie
                 </div>
             </div>
-            <div class="survey-checkboxes">
+            <div class="row survey-checkboxes">
                 <div class="header-text">
                     Wyniki będą dostępne dla:
                 </div>
