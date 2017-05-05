@@ -17,6 +17,14 @@
                 <div class="header-text">Data zakończenia</div>
                 <%= f.text_field :end_date, class: "form-control", placeholder: 'Data zakończenia' %>
             </div>
+            <div class="category-dropdown">
+                <div class="header-text">
+                    Kategoria:
+                </div>
+                <div class="form-group">
+                    <%= f.collection_select(:category_id, Category.all, :id, :name, {}, {:class=>"form-control category"}) %>
+                </div>
+            </div>
             <div class="survey-checkboxes">
                 <div class="header-text">
                     Ankietowani mają być pytani o:
@@ -32,14 +40,6 @@
                 </div>
                 <div class="checkbox">
                 <%= f.check_box :is_location_required %> zamieszkanie
-                </div>
-            </div>
-            <div class="survey-checkboxes">
-                <div class="header-text">
-                    Placeholder
-                </div>
-                <div class="checkbox">
-                    <%= f.check_box :is_opened %> placeholder
                 </div>
             </div>
             <div class="survey-checkboxes">
