@@ -26,32 +26,28 @@ class SurveysController < ApplicationController
   # POST /surveys.json
   def create
     @survey = Survey.new(survey_params)
-	@survey.administrator_id = 2#params[:administrator_id]
-	
+	@survey.administrator_id = current_administrator.id
+	@questions = []
+	@answers = []
 	question_param = params[:questions]
 	answer_param = params[:answers]
 	
 	question_param.each.with_index do |content, index_q|
-		question = Question.create(:content => content, :order => index_q, :survey_id => params[:survey][:name])
-		#@questions.push(question)
-		#question.answers.create(answer_param)
-		#answer_param.each.with_index { |answer, index_a|
-			#Answer.create(:reply => answer, :order => index_a, :question_id => index_q)
-		#}
+		indeks = index_q.to_s
+		question = Question.new(:content => content, :order => index_q)
+		replies = answer_param[indeks]
+			replies.each.with_index do |reply, index_a|
+				answer = Answer.new(:reply => reply, :order => index_a)
+				answer.save!
+				@answers.push(answer)
+			end
+		
+		question.save!
+		#question.answers = @answers   # do poprawienia, niepoprawne id!
+		@questions.push(question)
+		@answers = []
 	end
-	#@survey.questions = questions
-	
-	#@survey.name = params[:survey][:name]
-	#@survey.category_id = params[:survey][:category_id]
-	#@survey.is_age_required = params[:survey][:is_age_required]
-	#@survey.is_sex_required = params[:survey][:is_sex_required]
-	#@survey.is_education_required = params[:survey][:is_education_required]
-	#@survey.is_location_required = params[:survey][:is_location_required]
-	#@survey.is_public = params[:survey][:is_public]
-	#@survey.is_available_for_all = params[:survey][:is_available_for_all]
-	
-	#@survey.start_date = params[:survey][:start_date]
-	#@survey.end_date = params[:survey][:end_date]	
+	@survey.questions = @questions
 	
     respond_to do |format|
       if @survey.save!
