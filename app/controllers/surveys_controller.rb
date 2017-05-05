@@ -26,14 +26,40 @@ class SurveysController < ApplicationController
   # POST /surveys.json
   def create
     @survey = Survey.new(survey_params)
-
+	@survey.administrator_id = params[:administrator_id]
+	
+	question_param = params[:questions]
+	answer_param = params[:answers]
+	
+	question_param.each.with_index do |content, index_q|
+		question = Question.create(:content => content, :order => index_q)
+		#@questions.push(question)
+		#question.save
+		answer_param.each.with_index do |answer, index_a|
+			Answer.create(:reply => answer, :order => index_a, :question_id => index_q)
+		end
+	end
+	#@survey.questions = questions
+	
+	#@survey.name = params[:survey][:name]
+	#@survey.category_id = params[:survey][:category_id]
+	#@survey.is_age_required = params[:survey][:is_age_required]
+	#@survey.is_sex_required = params[:survey][:is_sex_required]
+	#@survey.is_education_required = params[:survey][:is_education_required]
+	#@survey.is_location_required = params[:survey][:is_location_required]
+	#@survey.is_public = params[:survey][:is_public]
+	#@survey.is_available_for_all = params[:survey][:is_available_for_all]
+	
+	#@survey.start_date = params[:survey][:start_date]
+	#@survey.end_date = params[:survey][:end_date]	
+	
     respond_to do |format|
       if @survey.save
         format.html { redirect_to @survey, notice: 'Survey was successfully created.' }
         format.json { render :show, status: :created, location: @survey }
       else
         format.html { render :new }
-        format.json { render json: @survey.errors, status: :unprocessable_entity }
+        format.json { render json: @survey.errors, status: :unprocessable_entity}
       end
     end
   end
