@@ -17,7 +17,7 @@ $(document).on "turbolinks:load", ->
                 $(this).next().children().addClass("btn-default").removeClass("btn-danger") # podmiana przycisku z błędem na domyślny przycisk
 
         if $(this).parent().hasClass("answer") && $(this).is($(this).parents().eq(1).find("input:last")) # jeśli naciśnięte zostało ostatnie pole na odpowiedź
-            $(this).attr("placeholder","").removeClass("pressForNewAnswer") # zmiana placeholdera, usunięcie przeźroczystości
+            $(this).attr("placeholder","Odpowiedź").removeClass("pressForNewAnswer") # zmiana placeholdera, usunięcie przeźroczystości
 
             name = $(this).parent().prev().children("input").attr("name") # odczytanie nazwy poprzedniego inputu
             $(this).attr("name",name) # ustawienie odczytanej nazwy inputu do dodanej odpowiedzi

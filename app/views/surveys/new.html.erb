@@ -7,59 +7,67 @@
 
         <div id="survey">
             <div id="survey-name" class="input-group input-group-lg">
-                <%= f.text_field :name, class: "form-control", placeholder: 'Nazwa ankiety' %>
+                <h2 class="text-center">Nazwa ankiety</h3>
+                <%= f.text_field :name, class: "form-control", style: "font-size: 28px", placeholder: 'Nazwa ankiety' %>
             </div>
             <div class="row start-date">
-                <div class="header-text">Data rozpoczęcia</div>
+                <h3>Data rozpoczęcia</h3>
                 <%= f.text_field :start_date, class: "form-control", placeholder: 'Data rozpoczęcia' %>
             </div>
             <div class="row end-date">
-                <div class="header-text">Data zakończenia</div>
+                <h3>Data zakończenia<h3>
                 <%= f.text_field :end_date, class: "form-control", placeholder: 'Data zakończenia' %>
             </div>
             <div class="row category-dropdown">
-                <div class="header-text">
-                    Kategoria:
-                </div>
+                <h3>Kategoria:</h3>
                 <div class="form-group">
                     <%= f.collection_select(:category_id, Category.all, :id, :name, {}, {:class=>"form-control category"}) %>
                 </div>
             </div>
             <div class="row survey-checkboxes">
-                <div class="header-text">
-                    Ankietowani mają być pytani o:
+                <h3>Ankietowani mają być pytani o:</h3>                
+                <div class="checkbox">
+                    <label>
+                        <%= f.check_box :is_age_required %> wiek
+                    </label>
                 </div>
                 <div class="checkbox">
-                <%= f.check_box :is_age_required %> wiek
+                    <label>
+                        <%= f.check_box :is_sex_required %> płeć
+                    </label>
                 </div>
                 <div class="checkbox">
-                <%= f.check_box :is_sex_required %> płeć
+                    <label>
+                        <%= f.check_box :is_education_required %> wykształcenie
+                    </label>
                 </div>
                 <div class="checkbox">
-                <%= f.check_box :is_education_required %> wykształcenie
-                </div>
-                <div class="checkbox">
-                <%= f.check_box :is_location_required %> zamieszkanie
+                    <label>
+                        <%= f.check_box :is_location_required %> zamieszkanie
+                    </label>
                 </div>
             </div>
             <div class="row survey-checkboxes">
-                <div class="header-text">
-                    Wyniki będą dostępne dla:
+                <h3>Wyniki będą dostępne dla:</h3>
+                <div class="checkbox">
+                    <label>
+                        <%= f.check_box :is_public %> ankietowanych
+                    </label>
                 </div>
                 <div class="checkbox">
-                    <%= f.check_box :is_public %> ankietowanych
-                </div>
-                <div class="checkbox">
-                    <%= f.check_box :is_available_for_all %> wszystkich
+                    <label>
+                        <%= f.check_box :is_available_for_all %> wszystkich
+                    </label>
                 </div>
             </div>
             <%= render 'question' %>
         </div>
         <div class="row">
-            <a href="javascript:;" id="add_new_question">Nowe Pytanie</a>
-
+            <div id="new-question">
+                <a href="javascript:;" id="add_new_question" class="btn btn-default">Nowe Pytanie</a>
+            </div>
             <div>
-                <%= f.submit "Zapisz ankietę"%>
+                <%= f.submit "Zapisz ankietę", class: "btn btn-primary btn-lg"%>
             </div>
         </div>
         <% end %>
