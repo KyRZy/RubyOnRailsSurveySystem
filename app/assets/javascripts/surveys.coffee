@@ -11,12 +11,12 @@ $(document).on "turbolinks:load", ->
         $("html, body").animate({ scrollTop: $(document).height() }, 500); # zescrollowanie do nowo dodanego pytania
 
     $("#survey").on "click", "input", ( -> # dodanie nowej odpowiedzi
-        if $(this).parent().hasClass("has-error")
-            $(this).parent().removeClass("has-error")
-            if $(this).next().hasClass("input-group-btn")
-                $(this).next().children().addClass("btn-default").removeClass("btn-danger")
+        if $(this).parent().hasClass("has-error") # jeśli kliknięte pole było zaznaczone jako błędne
+            $(this).parent().removeClass("has-error") # usunięcie błędu
+            if $(this).next().hasClass("input-group-btn") # jeśli dane pole miało przycisk usuwania
+                $(this).next().children().addClass("btn-default").removeClass("btn-danger") # podmianę przycisku z błędem na domyślny przycisk
 
-        if $(this).parent().hasClass("answer") && $(this).is($(this).parent().parent().find("input:last")) # jeśli naciśnięte zostało ostatnie pole na odpowiedź
+        if $(this).parent().hasClass("answer") && $(this).is($(this).parents().eq(1).find("input:last")) # jeśli naciśnięte zostało ostatnie pole na odpowiedź
             $(this).attr("placeholder","").removeClass("pressForNewAnswer") # zmiana placeholdera, usunięcie przeźroczystości
 
             name = $(this).parent().prev().children("input").attr("name") # odczytanie nazwy poprzedniego inputu
@@ -29,7 +29,7 @@ $(document).on "turbolinks:load", ->
             $(this).parent().parent().append($("#new_answer").html()) # dodanie nowego pola na odpowiedź
     )
     $("#survey").on "click", ".remove-question", ( -> 
-        question = $(this).parent().parent().parent().parent() # zapisanie div'a z klasą row zawierającego pytanie i wszystkie odpowiedzi do zmiennej question
+        question = $(this).parents().eq(3) # zapisanie div'a z klasą row zawierającego pytanie i wszystkie odpowiedzi do zmiennej question
         if number > 1 # jeśli ankieta zawiera więcej niż jedno pytanie
             while question.next().length # jeśli ankieta zawiera jakieś kolejne pytanie
                 question = question.next() # zapisanie kolejnego pytanie do zmiennej
@@ -38,31 +38,31 @@ $(document).on "turbolinks:load", ->
                 question.find("span").first().children("strong").html((questionNumber-1)+".") # zmniejszenie numeru pytania o 1
 
                 question.children(".answers").children(":not(:last-child)").children("input").attr("name","answers["+(questionNumber-2)+"][]") # zmniejszenie indeksu tabeli 2-wymiarowej w nazwie inputu
-            $(this).parent().parent().parent().parent().remove() # usunięcie oryginalnego pytania
+            $(this).parents().eq(3).remove() # usunięcie oryginalnego pytania
             number-- # zmniejszenie liczby reprezentującej liczbę pytań w ankiecie
     )
 
     $("#survey").on "click", ".remove-answer", ( ->
-        answerNumberString = $(this).parent().parent().siblings(":last").prev().children("span").first().html() # sprawdzenie numeru ostatniej odpowiedzi tego pytania
+        answerNumberString = $(this).parents().eq(1).siblings(":last").prev().children("span").first().html() # sprawdzenie numeru ostatniej odpowiedzi tego pytania
         if !(answerNumberString == "1." || answerNumberString == "2.") # jeśli pytanie ma więcej niż 2 odpowiedzi
-            answer = $(this).parent().parent() # zapisanie diva zawierającego input na tekst oraz span'y z numerem pytania i przyciskiem X do zmiennej answer
+            answer = $(this).parents().eq(1) # zapisanie diva zawierającego input na tekst oraz span'y z numerem pytania i przyciskiem X do zmiennej answer
             while answer.next().length # jeśli pytanie zawiera jakieś kolejną odpowiedź
                 answer = answer.next() # zapisanie kolejnej odpowiedzi do zmiennej
                 answerNumberString = answer.children("span").first().html() # odczytanie numeru tej odpowiedzi
                 answerNumber = parseFloat(answerNumberString.substring(0,answerNumberString.length-1)) # usunięcie kropki i parsowanie do integer
                 answer.children("span").first().html((answerNumber-1)+".") # zmniejszenie numeru odpowiedzi o 1
-            $(this).parent().parent().remove() # usunięcie oryginalnej odpowiedzi
+            $(this).parents().eq(1).remove() # usunięcie oryginalnej odpowiedzi
     )
-    $("#survey_is_available_for_all").on "click", ->
-        $("#survey_is_public").prop('checked', true)
+    $("#survey_is_available_for_all").on "click", -> # jeśli kliknięty został checkbox pozwalający WSZYSTKIM na dostęp do wyników ankiety
+        $("#survey_is_public").prop('checked', true) # zaznaczony zostaje także checkbox pozwalający ANKIETOWANYM na dostęp do wyników ankiety
         
-    $("#survey_is_public").on "click", ->
-        $("#survey_is_available_for_all").prop('checked', false)
+    $("#survey_is_public").on "click", -> # jeśli odznaczony został checkbox pozwalający ANKIETOWANYM na dostęp do wyników ankiety
+        $("#survey_is_available_for_all").prop('checked', false) # odznaczony zostaje także checkbox pozwalający WSZYSTKIM na dostęp do wyników ankiety
 
     $("form#new_survey").on "submit",  ->
         validation = true
         $("input[type=text]").each( -> 
-            if $(this).val() == "" && !$(this).hasClass("pressForNewAnswer") && !$(this).parent().parent().parent().parent().is("#new_question")
+            if $(this).val() == "" && !$(this).hasClass("pressForNewAnswer") && !$(this).parents().eq(3).is("#new_question")
                 validation = false
                 $(this).parent().addClass("has-error")
                 if $(this).next().hasClass("input-group-btn")
