@@ -25,32 +25,30 @@ class SurveysController < ApplicationController
   # POST /surveys
   # POST /surveys.json
   def create
-    @survey = Survey.new(survey_params)
-	@survey.administrator_id = current_administrator.id
-	@questions = []
-	@answers = []
-	question_param = params[:questions]
-	answer_param = params[:answers]
-	
-	question_param.each.with_index do |content, index_q|
-		indeks = index_q.to_s
-		question = Question.new(:content => content, :order => index_q)
-		replies = answer_param[indeks]
-			replies.each.with_index do |reply, index_a|
-				answer = Answer.new(:reply => reply, :order => index_a)
-				answer.save!
-				@answers.push(answer)
-			end
-		
-		question.save!
-		#question.answers = @answers   # do poprawienia, niepoprawne id!
-		@questions.push(question)
+  
+	Survey.transaction do
+		@survey = Survey.new(survey_params)
+		@survey.administrator_id = current_administrator.id
+		@questions = []
 		@answers = []
+		question_param = params[:questions]
+		answer_param = params[:answers]
+		
+		question_param.each.with_index do |content, index_q|
+			indeks = index_q.to_s
+			question = Question.new(:content => content, :order => index_q)
+			question.save!
+			replies = answer_param[indeks]
+				replies.each.with_index do |reply, index_a|
+					answer = Answer.new(:reply => reply, :order => index_a, :question_id => question.id)
+					answer.save!
+				end
+			@questions.push(question)
+		end
+		@survey.questions = @questions
 	end
-	@survey.questions = @questions
-	
     respond_to do |format|
-      if @survey.save!
+      if @survey.save
         format.html { redirect_to @survey, notice: 'Survey was successfully created.' }
         format.json { render :show, status: :created, location: @survey }
       else
