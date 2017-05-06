@@ -11,6 +11,11 @@ $(document).on "turbolinks:load", ->
         $("html, body").animate({ scrollTop: $(document).height() }, 500); # zescrollowanie do nowo dodanego pytania
 
     $("#survey").on "click", "input", ( -> # dodanie nowej odpowiedzi
+        if $(this).parent().hasClass("has-error")
+            $(this).parent().removeClass("has-error")
+            if $(this).next().hasClass("input-group-btn")
+                $(this).next().children().addClass("btn-default").removeClass("btn-danger")
+
         if $(this).parent().hasClass("answer") && $(this).is($(this).parent().parent().find("input:last")) # jeśli naciśnięte zostało ostatnie pole na odpowiedź
             $(this).attr("placeholder","").removeClass("pressForNewAnswer") # zmiana placeholdera, usunięcie przeźroczystości
 
@@ -53,6 +58,22 @@ $(document).on "turbolinks:load", ->
         
     $("#survey_is_public").on "click", ->
         $("#survey_is_available_for_all").prop('checked', false)
+
+    $("form#new_survey").on "submit",  ->
+        validation = true
+        $("input[type=text]").each( -> 
+            if $(this).val() == "" && !$(this).hasClass("pressForNewAnswer") && !$(this).parent().parent().parent().parent().is("#new_question")
+                validation = false
+                $(this).parent().addClass("has-error")
+                if $(this).next().hasClass("input-group-btn")
+                    $(this).next().children().removeClass("btn-default").addClass("btn-danger")
+        ) 
+        console.log validation
+        if !validation
+            false
+        else
+            true
+        
 
     $('body').tooltip(selector: '[data-toggle=tooltip]') # włączenie podpowiedzi pojawiających się po najechaniu na przyciski X przy pytaniach i odpowiedziach
     $('#survey_start_date, #survey_end_date').datetimepicker({locale: 'pl', format: 'LL'});
