@@ -74,7 +74,6 @@ $(document).on "turbolinks:load", ->
             false
         else
             true
-        
 
     $('body').tooltip(selector: '[data-toggle=tooltip]') # włączenie podpowiedzi pojawiających się po najechaniu na przyciski X przy pytaniach i odpowiedziach
-    $('#survey_start_date, #survey_end_date').datetimepicker({locale: 'pl', format: 'LLL', debug: true});
+    $('#survey_start_date, #survey_end_date').datetimepicker({locale: 'pl', format: 'LLL'});
