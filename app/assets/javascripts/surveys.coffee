@@ -8,6 +8,7 @@ $(document).on "turbolinks:load", ->
         $("#survey").append($("#new_question").html()) # dodanie nowego pytania do formularza
         $("#survey").children(":last").children(".answers").children(":not(:last-child)").children("input").attr("name","answers["+number+"][]") # dodanie odpowiedniego indekstu do nazw inputów
         $("#survey").children(":last").find("strong").html((++number)+".") # dopisanie kolejnej liczby do nowego pytania
+        $("#survey").children(":last").find("input[type=checkbox]").prop("value",number-1) # ustawienie wartości checkboxa jako indeks pytania
         $("html, body").animate({ scrollTop: $(document).height() }, 500); # zescrollowanie do nowo dodanego pytania
 
     $("#survey").on "click", "input", ( -> # dodanie nowej odpowiedzi
@@ -36,6 +37,7 @@ $(document).on "turbolinks:load", ->
                 questionNumberString = question.find("span").first().children("strong").html() # odczytanie numeru tego pytania 
                 questionNumber = parseFloat(questionNumberString.substring(0,questionNumberString.length-1)) # usunięcie kropki i parsowanie do integer
                 question.find("span").first().children("strong").html((questionNumber-1)+".") # zmniejszenie numeru pytania o 1
+                question.find("input[type=checkbox]").prop("value",number-2) # zmniejszenie wartości checkboxa o 1 (ma być o 1 mniejsza od numeracji pytania)
 
                 question.children(".answers").children(":not(:last-child)").children("input").attr("name","answers["+(questionNumber-2)+"][]") # zmniejszenie indeksu tabeli 2-wymiarowej w nazwie inputu
             $(this).parents().eq(3).remove() # usunięcie oryginalnego pytania
