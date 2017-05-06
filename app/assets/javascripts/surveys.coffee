@@ -14,7 +14,7 @@ $(document).on "turbolinks:load", ->
         if $(this).parent().hasClass("has-error") # jeśli kliknięte pole było zaznaczone jako błędne
             $(this).parent().removeClass("has-error") # usunięcie błędu
             if $(this).next().hasClass("input-group-btn") # jeśli dane pole miało przycisk usuwania
-                $(this).next().children().addClass("btn-default").removeClass("btn-danger") # podmianę przycisku z błędem na domyślny przycisk
+                $(this).next().children().addClass("btn-default").removeClass("btn-danger") # podmiana przycisku z błędem na domyślny przycisk
 
         if $(this).parent().hasClass("answer") && $(this).is($(this).parents().eq(1).find("input:last")) # jeśli naciśnięte zostało ostatnie pole na odpowiedź
             $(this).attr("placeholder","").removeClass("pressForNewAnswer") # zmiana placeholdera, usunięcie przeźroczystości
@@ -59,17 +59,16 @@ $(document).on "turbolinks:load", ->
     $("#survey_is_public").on "click", -> # jeśli odznaczony został checkbox pozwalający ANKIETOWANYM na dostęp do wyników ankiety
         $("#survey_is_available_for_all").prop('checked', false) # odznaczony zostaje także checkbox pozwalający WSZYSTKIM na dostęp do wyników ankiety
 
-    $("form#new_survey").on "submit",  ->
-        validation = true
-        $("input[type=text]").each( -> 
-            if $(this).val() == "" && !$(this).hasClass("pressForNewAnswer") && !$(this).parents().eq(3).is("#new_question")
-                validation = false
-                $(this).parent().addClass("has-error")
-                if $(this).next().hasClass("input-group-btn")
-                    $(this).next().children().removeClass("btn-default").addClass("btn-danger")
+    $("form#new_survey").on "submit",  -> # walidacja formularza po naciśnięciu przycisku
+        validation = true # formularz wstępnie zostaje oceniony jako poprawnie uzupełniony
+        $("input[type=text]").each( -> # dla każdego pola tekstowego
+            if $(this).val() == "" && !$(this).hasClass("pressForNewAnswer") && !$(this).parents().eq(3).is("#new_question") # jeśli jest puste i nie jest ani polem do dodawania odpowiedzi ani schowanym pytaniem
+                validation = false # formularz zostaje oceniony jako błędnie uzupełniony
+                $(this).parent().addClass("has-error") # puste pole zostaje oznaczone czerwonym kolorem
+                if $(this).next().hasClass("input-group-btn") # jeśli dane pole miało przycisk usuwania
+                    $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
         ) 
-        console.log validation
-        if !validation
+        if !validation # jeśli formularz nie przeszedł walidacji, dane z formularza NIE zostaną przesłane do serwera
             false
         else
             true
