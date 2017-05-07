@@ -2,8 +2,11 @@
     <div class="row">
         <h1>Nowa ankieta</h1>
     </div>
-
-    <%= form_for(@survey, remote: true, format: :json, html: {class: :survey_form} ) do |f| %>
+    <div class="alert alert-danger hidden" role="alert">
+        <button type="button" class="close">&times;</button>
+        <strong>Błąd!</strong> W ankiecie znaleziono niewypełnione pola. Proszę je wypełnić i spróbować ponownie zapisać ankietę.
+    </div>
+    <%= form_for(@survey, format: :json, html: {class: :survey_form} ) do |f| %>
 
         <div id="survey">
             <div id="survey-name" class="input-group input-group-lg">

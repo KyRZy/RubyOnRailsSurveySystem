@@ -10,6 +10,10 @@
     margin-bottom: 20px;
     width: 100%;
 }
+#survey_name{
+    border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+}
 #new-question{
     margin-bottom: 30px;
 }
@@ -30,6 +34,10 @@
 }
 .pressForNewAnswer{
     opacity: 0.6;
+}
+.remove-question{
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
 }
 .answer{
     width: 100%;

@@ -71,9 +71,13 @@ $(document).on "turbolinks:load", ->
                     $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
         ) 
         if !validation # jeśli formularz nie przeszedł walidacji, dane z formularza NIE zostaną przesłane do serwera
+            $("div[role=alert]").removeClass("hidden")
+            $("html, body").animate({ scrollTop: 0 }, 200); # zescrollowanie do nowo dodanego pytania
             false
         else
             true
+    $("button.close").on "click", ->
+        $("div[role=alert]").addClass("hidden")
 
     $('body').tooltip(selector: '[data-toggle=tooltip]') # włączenie podpowiedzi pojawiających się po najechaniu na przyciski X przy pytaniach i odpowiedziach
     $('#survey_start_date, #survey_end_date').datetimepicker({locale: 'pl', format: 'LL'});
