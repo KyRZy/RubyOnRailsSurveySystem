@@ -33,10 +33,15 @@ class SurveysController < ApplicationController
 		@answers = []
 		question_param = params[:questions]
 		answer_param = params[:answers]
+		question_type_param = params[:question_type]
 		
 		question_param.each.with_index do |content, index_q|
 			indeks = index_q.to_s
-			question = Question.new(:content => content, :order => index_q)
+			if question_type_param.include?(indeks)
+				question = Question.new(:content => content, :order => index_q, :question_type => "WIELOKROTNEGO_WYBORU")
+			else
+				question = Question.new(:content => content, :order => index_q, :question_type => "JEDNOKROTNEGO_WYBORU")
+			end
 			question.save!
 			replies = answer_param[indeks]
 				replies.each.with_index do |reply, index_a|
