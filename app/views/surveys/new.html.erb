@@ -6,7 +6,7 @@
         <button type="button" class="close">&times;</button>
         <strong>Błąd!</strong> W ankiecie znaleziono niewypełnione pola. Proszę je wypełnić i spróbować ponownie zapisać ankietę.
     </div>
-    <%= form_for(@survey, format: :json, html: {class: :survey_form} ) do |f| %>
+    <%= form_for(@survey, format: :json, html: {} ) do |f| %>
 
         <div id="survey">
             <div id="survey-name" class="input-group input-group-lg">

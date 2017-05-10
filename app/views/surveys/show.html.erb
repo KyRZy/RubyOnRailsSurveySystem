@@ -5,6 +5,20 @@
   <%= @survey.name %>
 </p>
 
+  <% if @survey.is_age_required %>
+    <br><%= text_field(:respondent, :age) %>
+  <% end %>
+  <% if @survey.is_sex_required %>
+    <br><label><%= radio_button_tag(:respondent, 'K') %>Kobieta</label>
+    <br><label><%= radio_button_tag(:respondent, 'M') %>Mężczyzna</label>
+  <% end %>
+  <% if @survey.is_education_required %>
+    <br><%= select(:respondent, "education", ["podstawowe","gimnazjalne","zawodowe","średnie","wyższe"]) %>
+  <% end %>
+  <% if @survey.is_location_required %>
+    <br><%= select(:respondent, "education", ["Rzeszów","Kraków","Warszawa","Wrocław","Gdynia"]) %>
+  <% end %>
+
 <%= form_tag do %>
   <% @survey.questions.each do |q| %>
     <% question_number = 0 %>
@@ -12,7 +26,7 @@
     <% q.answers.each do |a| %>
       <% if q.question_type == "JEDNOKROTNEGO_WYBORU" %>
       <label><%= radio_button_tag "question[#{q.id}]", a.id %><%= a.reply %></label><br>
-      <% else %>
+      <% elsif q.question_type == "WIELOKROTNEGO_WYBORU"%>
       <label><%= check_box_tag "question[#{q.id}]", a.id %><%= a.reply %></label><br>
       <% end %>
     <% end %>
