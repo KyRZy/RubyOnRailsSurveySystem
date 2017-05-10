@@ -4,22 +4,21 @@
   <strong>Name:</strong>
   <%= @survey.name %>
 </p>
-
+<%= form_tag do %>
   <% if @survey.is_age_required %>
-    <br><%= text_field(:respondent, :age) %>
+    <br><%= text_field("respondent", "age") %>
   <% end %>
   <% if @survey.is_sex_required %>
-    <br><label><%= radio_button_tag(:respondent, 'K') %>Kobieta</label>
-    <br><label><%= radio_button_tag(:respondent, 'M') %>Mężczyzna</label>
+    <br><label><%= radio_button_tag("respondent[sex]", 'K') %>Kobieta</label>
+    <br><label><%= radio_button_tag("respondent[sex]", 'M') %>Mężczyzna</label>
   <% end %>
   <% if @survey.is_education_required %>
-    <br><%= select(:respondent, "education", ["podstawowe","gimnazjalne","zawodowe","średnie","wyższe"]) %>
+    <br><%= select("respondent", "education", ["podstawowe","gimnazjalne","zawodowe","średnie","wyższe"]) %>
   <% end %>
   <% if @survey.is_location_required %>
-    <br><%= select(:respondent, "education", ["Rzeszów","Kraków","Warszawa","Wrocław","Gdynia"]) %>
+    <br><%= select("respondent", "location", ["Rzeszów","Kraków","Warszawa","Wrocław","Gdynia"]) %>
   <% end %>
 
-<%= form_tag do %>
   <% @survey.questions.each do |q| %>
     <% question_number = 0 %>
     <p><strong> <%= q.content %></strong></p>
