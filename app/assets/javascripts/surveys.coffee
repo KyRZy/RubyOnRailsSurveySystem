@@ -72,7 +72,7 @@ $(document).on "turbolinks:load", ->
         ) 
         if !validation # jeśli formularz nie przeszedł walidacji, dane z formularza NIE zostaną przesłane do serwera
             $("div[role=alert]").removeClass("hidden")
-            $("html, body").animate({ scrollTop: 0 }, 200); # zescrollowanie do nowo dodanego pytania
+            $("html, body").animate({ scrollTop: 0 }, 200); # zescrollowanie do początku strony
             false
         else
             true

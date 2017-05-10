@@ -15,7 +15,6 @@ class SurveysController < ApplicationController
   # GET /surveys/new
   def new
     @survey = Survey.new
-    @categories = Category.all
   end
 
   # GET /surveys/1/edit

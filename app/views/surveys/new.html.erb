@@ -24,7 +24,7 @@
             <div class="row category-dropdown">
                 <h3>Kategoria:</h3>
                 <div class="form-group">
-                    <%= f.collection_select(:category_id, Category.all, :id, :name, {}, {:class=>"form-control category"}) %>
+                    <%= f.collection_select(:category_id, Category.order('name'), :id, :name, {}, {:class=>"form-control category"}) %>
                 </div>
             </div>
             <div class="row survey-checkboxes">
