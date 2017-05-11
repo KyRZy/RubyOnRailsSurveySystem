@@ -33,27 +33,43 @@ input#survey_name{
     margin-bottom: 20px;
 }
 #respondent-info-form{
-    border: 1px;
-    border-style: solid;
-    border-color: grey;
-    padding: 0px;
     margin: 20px 0px 20px 0px;
-    padding: 0px 20px 0px 20px;
+    padding: 0px 20px 20px 20px;
+    -webkit-box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
+    box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
 }
-.respondent-age{
+.respondent-sex{
+    label{
+        word-wrap: break-word;
+        input[type='radio']{
+            vertical-align: middle;
+            height:100%;
+            margin-top: 0px;
+            transform: scale(1.5 , 1.5); 
+            -moz-transform: scale(1.5 , 1.5); 
+            -ms-transform: scale(1.5 , 1.5); 
+            -webkit-transform: scale(1.5 , 1.5); 
+            -o-transform: scale(1.5 , 1.5);  
+        }
+    }
+}
+.respondent-age-input{
+    font-size: 16px !important;
     width: auto !important;
 }
-.respondent-education, .respondent-location{
+.respondent-education-input, .respondent-location-input{
     margin-top: 10px;
     margin-bottom: 10px;
+    font-size: 16px !important;
     width: auto !important;
 }
 #survey{
-    border: 1px;
-    border-style: solid;
-    border-color: grey;
-    margin: 20px 0px 20px 0px;
+    margin: 60px 0px 20px 0px;
     padding: 0px 20px 0px 20px;
+    -webkit-box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
+    box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
 }
 .question-generator{
     margin-top: 30px;
@@ -82,15 +98,15 @@ input#survey_name{
     label{
         word-wrap: break-word;
         input[type='radio'],input[type='checkbox']{
-        vertical-align: middle;
-        height:100%;
-        margin-top: 0px;
-        transform: scale(1.5 , 1.5); 
-        -moz-transform: scale(1.5 , 1.5); 
-        -ms-transform: scale(1.5 , 1.5); 
-        -webkit-transform: scale(1.5 , 1.5); 
-        -o-transform: scale(1.5 , 1.5);  
-    }
+            vertical-align: middle;
+            height:100%;
+            margin-top: 0px;
+            transform: scale(1.5 , 1.5); 
+            -moz-transform: scale(1.5 , 1.5); 
+            -ms-transform: scale(1.5 , 1.5); 
+            -webkit-transform: scale(1.5 , 1.5); 
+            -o-transform: scale(1.5 , 1.5);  
+        }
     }
 }
 .hidden{

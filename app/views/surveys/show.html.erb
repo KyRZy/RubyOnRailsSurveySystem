@@ -7,40 +7,40 @@
   </div>
   <%= form_tag do %>
     <% if @survey.is_age_required || @survey.is_sex_required || @survey.is_education_required || @survey.is_location_required %>
-      <div id="respondent-info-form">
-        <h2 class="text-center">Dane wymagane od ankietowanego:</h2>
+      <div id="respondent-info-form" class="panel panel-default">
+        <h1 class="text-center">Dane wymagane od ankietowanego:</h1>
         <% if @survey.is_age_required %>
           <div>
-            <h3>Wiek:</h3>
-            <%= number_field("respondent[age]", nil, in: 1...100, class: "form-control respondent-age") %>
+            <h2>Wiek:</h2>
+            <%= number_field("respondent[age]", nil, in: 1...100, class: "form-control respondent-age-input") %>
           </div>
           <% end %>
             <% if @survey.is_sex_required %>
-              <div>
-                <h3>Płeć:</h3>
+              <div class="respondent-sex">
+                <h2>Płeć:</h2>
                 <div class="radio">
-                  <label><%= radio_button_tag("respondent[sex]", 'K') %>Kobieta</label>
+                  <h3><label><%= radio_button_tag("respondent[sex]", 'K') %>Kobieta</label></h3>
                 </div>
                 <div class="radio">
-                  <label><%= radio_button_tag("respondent[sex]", 'M') %>Mężczyzna</label>
+                  <h3><label><%= radio_button_tag("respondent[sex]", 'M') %>Mężczyzna</label></h3>
                 </div>
               </div>
             <% end %>
             <% if @survey.is_education_required %>
               <div>
-                <h3>Wykształcenie:</h3>
-                <%= select("respondent", "education", ["podstawowe","gimnazjalne","zawodowe","średnie","wyższe"],{},{class: "form-control respondent-education"}) %>
+                <h2>Wykształcenie:</h2>
+                <%= select("respondent", "education", ["podstawowe","gimnazjalne","zawodowe","średnie","wyższe"],{},{class: "form-control respondent-education-input"}) %>
               </div>
             <% end %>
             <% if @survey.is_location_required %>
               <div>
-                <h3>Miejsce zamieszkania:</h3>
-                <%= select("respondent", "location", ["Rzeszów","Kraków","Warszawa","Wrocław","Gdynia"],{},{class: "form-control respondent-location"}) %>
+                <h2>Miejsce zamieszkania:</h2>
+                <%= select("respondent", "location", ["Rzeszów","Kraków","Warszawa","Wrocław","Gdynia"],{},{class: "form-control respondent-location-input"}) %>
               </div>
             <% end %>
       </div>
       <% end %>
-      <div id="survey">
+      <div id="survey" class="panel panel-default">
         <% @survey.questions.each do |q| %>
         <div class="question">
           <h2><%= q.content %></h2>
