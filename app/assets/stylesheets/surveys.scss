@@ -55,9 +55,16 @@ input#survey_name{
     margin: 20px 0px 20px 0px;
     padding: 0px 20px 0px 20px;
 }
+.question-generator{
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
 .question{
     margin-top: 30px;
     margin-bottom: 20px;
+    h2{
+        word-wrap: break-word;
+    }
 }
 .pressForNewAnswer{
     opacity: 0.6;
@@ -66,10 +73,25 @@ input#survey_name{
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
 }
-.answer{
+.answer-generator{
     width: 100%;
     margin-top: 8px;
     margin-bottom: 8px;
+}
+.answer{
+    label{
+        word-wrap: break-word;
+        input[type='radio'],input[type='checkbox']{
+        vertical-align: middle;
+        height:100%;
+        margin-top: 0px;
+        transform: scale(1.5 , 1.5); 
+        -moz-transform: scale(1.5 , 1.5); 
+        -ms-transform: scale(1.5 , 1.5); 
+        -webkit-transform: scale(1.5 , 1.5); 
+        -o-transform: scale(1.5 , 1.5);  
+    }
+    }
 }
 .hidden{
     display:none;

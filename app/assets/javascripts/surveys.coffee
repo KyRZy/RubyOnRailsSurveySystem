@@ -5,13 +5,13 @@
 $(document).on "turbolinks:load", ->
     number = 1 # liczba pytań w ankiecie
     $("#add_new_question").on "click", -> # dodanie nowego pytania
-        $("#survey").append($("#new_question").html()) # dodanie nowego pytania do formularza
-        $("#survey").children(":last").children(".answers").children(":not(:last-child)").children("input").attr("name","answers["+number+"][]") # dodanie odpowiedniego indekstu do nazw inputów
-        $("#survey").children(":last").find("strong").html((++number)+".") # dopisanie kolejnej liczby do nowego pytania
-        $("#survey").children(":last").find("input[type=checkbox]").prop("value",number-1) # ustawienie wartości checkboxa jako indeks pytania
+        $("#survey-generator").append($("#new_question").html()) # dodanie nowego pytania do formularza
+        $("#survey-generator").children(":last").children(".answers").children(":not(:last-child)").children("input").attr("name","answers["+number+"][]") # dodanie odpowiedniego indekstu do nazw inputów
+        $("#survey-generator").children(":last").find("strong").html((++number)+".") # dopisanie kolejnej liczby do nowego pytania
+        $("#survey-generator").children(":last").find("input[type=checkbox]").prop("value",number-1) # ustawienie wartości checkboxa jako indeks pytania
         $("html, body").animate({ scrollTop: $(document).height() }, 500); # zescrollowanie do nowo dodanego pytania
 
-    $("#survey").on "click", "input", ( -> # dodanie nowej odpowiedzi
+    $("#survey-generator").on "click", "input", ( -> # dodanie nowej odpowiedzi
         if $(this).parent().hasClass("has-error") # jeśli kliknięte pole było zaznaczone jako błędne
             $(this).parent().removeClass("has-error") # usunięcie błędu
             if $(this).next().hasClass("input-group-btn") # jeśli dane pole miało przycisk usuwania
@@ -29,7 +29,7 @@ $(document).on "turbolinks:load", ->
             $(this).next().removeClass("hidden") # wyświetlenie przycisku usuwającego odpowiedź
             $(this).parent().parent().append($("#new_answer").html()) # dodanie nowego pola na odpowiedź
     )
-    $("#survey").on "click", ".remove-question", ( -> 
+    $("#survey-generator").on "click", ".remove-question", ( -> 
         question = $(this).parents().eq(3) # zapisanie div'a z klasą row zawierającego pytanie i wszystkie odpowiedzi do zmiennej question
         if number > 1 # jeśli ankieta zawiera więcej niż jedno pytanie
             while question.next().length # jeśli ankieta zawiera jakieś kolejne pytanie
@@ -44,7 +44,7 @@ $(document).on "turbolinks:load", ->
             number-- # zmniejszenie liczby reprezentującej liczbę pytań w ankiecie
     )
 
-    $("#survey").on "click", ".remove-answer", ( ->
+    $("#survey-generator").on "click", ".remove-answer", ( ->
         answerNumberString = $(this).parents().eq(1).siblings(":last").prev().children("span").first().html() # sprawdzenie numeru ostatniej odpowiedzi tego pytania
         if !(answerNumberString == "1." || answerNumberString == "2.") # jeśli pytanie ma więcej niż 2 odpowiedzi
             answer = $(this).parents().eq(1) # zapisanie diva zawierającego input na tekst oraz span'y z numerem pytania i przyciskiem X do zmiennej answer
