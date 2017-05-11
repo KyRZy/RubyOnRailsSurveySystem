@@ -1,34 +1,65 @@
-<p id="notice"><%= notice %></p>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-offset-1 col-lg-10 col-lg-offset-1">
 
-<p>
-  <strong>Name:</strong>
-  <%= @survey.name %>
-</p>
-<%= form_tag do %>
-  <% if @survey.is_age_required %>
-    <br><%= text_field("respondent", "age") %>
-  <% end %>
-  <% if @survey.is_sex_required %>
-    <br><label><%= radio_button_tag("respondent[sex]", 'K') %>Kobieta</label>
-    <br><label><%= radio_button_tag("respondent[sex]", 'M') %>Mężczyzna</label>
-  <% end %>
-  <% if @survey.is_education_required %>
-    <br><%= select("respondent", "education", ["podstawowe","gimnazjalne","zawodowe","średnie","wyższe"]) %>
-  <% end %>
-  <% if @survey.is_location_required %>
-    <br><%= select("respondent", "location", ["Rzeszów","Kraków","Warszawa","Wrocław","Gdynia"]) %>
-  <% end %>
-
-  <% @survey.questions.each do |q| %>
-    <% question_number = 0 %>
-    <p><strong> <%= q.content %></strong></p>
-    <% q.answers.each do |a| %>
-      <% if q.question_type == "JEDNOKROTNEGO_WYBORU" %>
-      <label><%= radio_button_tag "question[#{q.id}]", a.id %><%= a.reply %></label><br>
-      <% elsif q.question_type == "WIELOKROTNEGO_WYBORU"%>
-      <label><%= check_box_tag "question[#{q.id}]", a.id %><%= a.reply %></label><br>
+  <div class="row">
+    <h1 id="survey-title" class="text-center">
+      <%= @survey.name %>
+    </h1>
+  </div>
+  <%= form_tag do %>
+    <% if @survey.is_age_required || @survey.is_sex_required || @survey.is_education_required || @survey.is_location_required %>
+      <div id="respondent-info-form">
+        <h2 class="text-center">Dane wymagane od ankietowanego:</h2>
+        <% if @survey.is_age_required %>
+          <div>
+            <h3>Wiek:</h3>
+            <%= number_field("respondent[age]", nil, in: 1...100, class: "form-control respondent-age") %>
+          </div>
+          <% end %>
+            <% if @survey.is_sex_required %>
+              <div>
+                <h3>Płeć:</h3>
+                <div class="radio">
+                  <label><%= radio_button_tag("respondent[sex]", 'K') %>Kobieta</label>
+                </div>
+                <div class="radio">
+                  <label><%= radio_button_tag("respondent[sex]", 'M') %>Mężczyzna</label>
+                </div>
+              </div>
+            <% end %>
+            <% if @survey.is_education_required %>
+              <div>
+                <h3>Wykształcenie:</h3>
+                <%= select("respondent", "education", ["podstawowe","gimnazjalne","zawodowe","średnie","wyższe"],{},{class: "form-control respondent-education"}) %>
+              </div>
+            <% end %>
+            <% if @survey.is_location_required %>
+              <div>
+                <h3>Miejsce zamieszkania:</h3>
+                <%= select("respondent", "location", ["Rzeszów","Kraków","Warszawa","Wrocław","Gdynia"],{},{class: "form-control respondent-location"}) %>
+              </div>
+            <% end %>
+      </div>
       <% end %>
-    <% end %>
+      <div id="survey">
+        <% @survey.questions.each do |q| %>
+        <div class="question">
+          <h2><%= q.content %></h2>
+          <div class="answers">
+          <% q.answers.each do |a| %>
+            <% if q.question_type == "JEDNOKROTNEGO_WYBORU" %>
+            <div class="answer radio">
+              <h3><label><%= radio_button_tag "question[#{q.id}]", a.id %><%= a.reply %></label></h3>
+            </div>
+            <% elsif q.question_type == "WIELOKROTNEGO_WYBORU"%>
+            <div class="answer checkbox">
+              <h3><label><%= check_box_tag "question[#{q.id}]", a.id %><%= a.reply %></label></h3>
+            </div>
+            <% end %>
+          <% end %>
+          </div>
+        <% end %>
+        </div>
+        <%= submit_tag("Wyślij", class: "btn btn-primary btn-lg") %>
   <% end %>
-  <%= submit_tag("Wyślij") %>
-<% end %>
+  </div>
+</div>

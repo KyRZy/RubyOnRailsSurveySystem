@@ -25,8 +25,35 @@ input#survey_name{
     margin-top: 20px;
     left: 20px;
 }
-.start-date, .end-date, .category{
+.start-date, .end-date, .category,{
     width: 50% !important;
+}
+#survey-title{
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+#respondent-info-form{
+    border: 1px;
+    border-style: solid;
+    border-color: grey;
+    padding: 0px;
+    margin: 20px 0px 20px 0px;
+    padding: 0px 20px 0px 20px;
+}
+.respondent-age{
+    width: auto !important;
+}
+.respondent-education, .respondent-location{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: auto !important;
+}
+#survey{
+    border: 1px;
+    border-style: solid;
+    border-color: grey;
+    margin: 20px 0px 20px 0px;
+    padding: 0px 20px 0px 20px;
 }
 .question{
     margin-top: 30px;
