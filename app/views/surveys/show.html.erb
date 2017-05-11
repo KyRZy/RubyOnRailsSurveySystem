@@ -35,7 +35,7 @@
             <% if @survey.is_location_required %>
               <div>
                 <h2>Miejsce zamieszkania:</h2>
-                <%= select("respondent", "location", ["Rzeszów","Kraków","Warszawa","Wrocław","Gdynia"],{},{class: "form-control respondent-location-input"}) %>
+                <%= select("respondent", "location", ["do 5 tyś. mieszkańców","5-20 tyś. mieszkańców","20-100 tyś. mieszkańców","100-200 tyś. mieszkańców","200-500 tyś. mieszkańców","powyżej 500 tyś. mieszkańców"],{},{class: "form-control respondent-location-input"}) %>
               </div>
             <% end %>
       </div>
