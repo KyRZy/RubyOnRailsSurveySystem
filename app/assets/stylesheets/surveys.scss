@@ -83,6 +83,7 @@ input#survey_name{
 }
 #survey-generator-form{
     padding: 10px;
+    @include shadow;
 }
 #survey{
     @include margin-top-bottom(20px,20px);
