@@ -2,17 +2,40 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+@mixin margin-top-bottom($top,$bottom){
+    margin-top: $top;
+    margin-bottom: $bottom;
+}
+
+@mixin shadow{
+    -webkit-box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
+    box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
+}
+
+@mixin scale{
+    transform: scale(1.5 , 1.5); 
+    -moz-transform: scale(1.5 , 1.5); 
+    -ms-transform: scale(1.5 , 1.5); 
+    -webkit-transform: scale(1.5 , 1.5); 
+    -o-transform: scale(1.5 , 1.5); 
+}
+
 .container{
     margin-bottom: 50px;
 }
 div#survey-name{
-    margin-top: 20px;
-    margin-bottom: 20px;
+    @include margin-top-bottom(20px,20px);
+    text-align: center;
     width: 100%;
 }
 input#survey_name{
-    border-bottom-left-radius: 6px;
+    font-size: 24px; 
+    height: 50px;
     border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 #new-question{
     margin-bottom: 30px;
@@ -33,24 +56,18 @@ input#survey_name{
     margin-bottom: 20px;
 }
 #respondent-info-form{
-    margin: 20px 0px 20px 0px;
+    @include margin-top-bottom(20px,60px);
     padding: 0px 20px 20px 20px;
-    -webkit-box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
-    -moz-box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
-    box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
+    @include shadow;
 }
 .respondent-sex{
     label{
-        word-wrap: break-word;
+        word-wrap: normal;
         input[type='radio']{
             vertical-align: middle;
             height:100%;
             margin-top: 0px;
-            transform: scale(1.5 , 1.5); 
-            -moz-transform: scale(1.5 , 1.5); 
-            -ms-transform: scale(1.5 , 1.5); 
-            -webkit-transform: scale(1.5 , 1.5); 
-            -o-transform: scale(1.5 , 1.5);  
+            @include scale; 
         }
     }
 }
@@ -64,22 +81,21 @@ input#survey_name{
     font-size: 16px !important;
     width: auto !important;
 }
+#survey-generator-form{
+    padding: 10px;
+}
 #survey{
-    margin: 60px 0px 20px 0px;
+    @include margin-top-bottom(20px,20px);
     padding: 0px 20px 0px 20px;
-    -webkit-box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
-    -moz-box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
-    box-shadow: 0px 10px 20px 10px rgba(0,0,0,0.2);
+    @include shadow;
 }
 .question-generator{
-    margin-top: 30px;
-    margin-bottom: 20px;
+    @include margin-top-bottom(30px,20px);
 }
 .question{
-    margin-top: 30px;
-    margin-bottom: 20px;
+    @include margin-top-bottom(30px,20px);
     h2{
-        word-wrap: break-word;
+        word-wrap: normal;
     }
 }
 .pressForNewAnswer{
@@ -101,11 +117,7 @@ input#survey_name{
             vertical-align: middle;
             height:100%;
             margin-top: 0px;
-            transform: scale(1.5 , 1.5); 
-            -moz-transform: scale(1.5 , 1.5); 
-            -ms-transform: scale(1.5 , 1.5); 
-            -webkit-transform: scale(1.5 , 1.5); 
-            -o-transform: scale(1.5 , 1.5);  
+            @include scale;   
         }
     }
 }

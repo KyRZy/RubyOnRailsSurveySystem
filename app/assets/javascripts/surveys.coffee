@@ -61,7 +61,7 @@ $(document).on "turbolinks:load", ->
     $("#survey_is_public").on "click", -> # jeśli odznaczony został checkbox pozwalający ANKIETOWANYM na dostęp do wyników ankiety
         $("#survey_is_available_for_all").prop('checked', false) # odznaczony zostaje także checkbox pozwalający WSZYSTKIM na dostęp do wyników ankiety
 
-    $("form#new_survey").on "submit",  -> # walidacja formularza po naciśnięciu przycisku
+    $("form#survey-generator-form").on "submit",  -> # walidacja formularza po naciśnięciu przycisku
         validation = true # formularz wstępnie zostaje oceniony jako poprawnie uzupełniony
         $("input[type=text]").each( -> # dla każdego pola tekstowego
             if $(this).val() == "" && !$(this).hasClass("pressForNewAnswer") && !$(this).parents().eq(3).is("#new_question") # jeśli jest puste i nie jest ani polem do dodawania odpowiedzi ani schowanym pytaniem
