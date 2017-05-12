@@ -12,6 +12,26 @@ class SurveysController < ApplicationController
   def show
     @respondent = Respondent.new
   end
+  
+  def fill
+	respondent_param = params[:respondent]
+    @respondent = Respondent.create(:age => respondent_param[:age], :sex => respondent_param[:sex], :education => respondent_param[:education], :location => respondent_param[:location], :ip_address => request.remote_ip)
+	question_param = params[:question]
+	question_param.each do |question, answers|
+		answers.each do |answer_id|
+			answer_respondent = AnswerRespondent.create(:answer_id => answer_id, :respondent_id => @respondent.id)
+		end
+	end
+	respond_to do |format|
+      if @respondent.save
+        format.html { redirect_to root_path, notice: 'Dziękujemy za wypełnienie ankiety!' }
+        format.json { redirect_to root_path, notice: 'Dziękujemy za wypełnienie ankiety!' }
+      else
+        format.html { redirect_to root_path, notice: 'Wystąpił błąd przy wypełnianiu ankiety!' }
+        format.json { redirect_to root_path, notice: 'Wystąpił błąd przy wypełnianiu ankiety!' }
+      end
+    end
+  end
 
   # GET /surveys/new
   def new
@@ -37,10 +57,14 @@ class SurveysController < ApplicationController
 		
 		question_param.each.with_index do |content, index_q|
 			indeks = index_q.to_s
-			if question_type_param.include?(indeks)
-				question = Question.new(:content => content, :order => index_q, :question_type => "WIELOKROTNEGO_WYBORU")
-			else
+			if question_type_param.nil?
 				question = Question.new(:content => content, :order => index_q, :question_type => "JEDNOKROTNEGO_WYBORU")
+			else
+				if question_type_param.include?(indeks)
+					question = Question.new(:content => content, :order => index_q, :question_type => "WIELOKROTNEGO_WYBORU")
+				else
+					question = Question.new(:content => content, :order => index_q, :question_type => "JEDNOKROTNEGO_WYBORU")
+				end
 			end
 			question.save!
 			replies = answer_param[indeks]
