@@ -12,7 +12,7 @@
         <% if @survey.is_age_required %>
           <div>
             <h2>Wiek:</h2>
-            <%= number_field("respondent[age]", nil, in: 1...100, class: "form-control respondent-age-input") %>
+            <%= number_field_tag("respondent[age]", nil, in: 1...100, class: "form-control respondent-age-input") %>
           </div>
           <% end %>
             <% if @survey.is_sex_required %>
