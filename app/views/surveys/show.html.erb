@@ -48,11 +48,11 @@
           <% q.answers.each do |a| %>
             <% if q.question_type == "JEDNOKROTNEGO_WYBORU" %>
             <div class="answer radio">
-              <h3><label><%= radio_button_tag "question[#{q.id}]", a.id %><%= a.reply %></label></h3>
+              <h3><label><%= radio_button_tag "question[#{q.id}][]", a.id %><%= a.reply %></label></h3>
             </div>
             <% elsif q.question_type == "WIELOKROTNEGO_WYBORU"%>
             <div class="answer checkbox">
-              <h3><label><%= check_box_tag "question[#{q.id}]", a.id %><%= a.reply %></label></h3>
+              <h3><label><%= check_box_tag "question[#{q.id}][]", a.id %><%= a.reply %></label></h3>
             </div>
             <% end %>
           <% end %>
