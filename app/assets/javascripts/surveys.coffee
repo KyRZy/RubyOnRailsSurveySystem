@@ -94,7 +94,7 @@ $(document).on "turbolinks:load", ->
             validation = false
         sexError = !$('input:radio[name="respondent[sex]"]').first().is(':checked') && !$('input:radio[name="respondent[sex]"]').last().is(':checked') # jeśli płeć nie została określona ustaw flagę błędu
         if sexError && $('.respondent-sex h2').children().length == 0 # jeśli znaleziono błąd przy deklaracji płci i komunikat błędu nie został już dodany
-            $('.respondent-sex h2').append('<span class="no-answer-error"><span class="glyphicon glyphicon-arrow-left inline" style="font-size:24px"></span>Brak odpowiedzi</span>') # dodanie komunikatu błędu
+            $('.respondent-sex h2').append('<span class="no-answer-error"><span class="glyphicon glyphicon-arrow-left inline" style="font-size:24px"></span>Brak odpowiedzi</span>').fadeIn() # dodanie komunikatu błędu
             validation = false
         $(".question").each ( -> # dla każdego pytania
             answerIsSelected = false # wstępnie zostaje ustalone, że żadna z odpowiedzi nie została zaznaczona
@@ -104,7 +104,7 @@ $(document).on "turbolinks:load", ->
             if !answerIsSelected  # jeśli żadna z odpowiedzi nie została zaznaczona
                 validation = false 
                 if !$(this).find("h2").children().is("span") # jeśli komunikat błędu nie został już wcześniej dodany
-                    $(this).find("h2").append('<span class="no-answer-error"><span class="glyphicon glyphicon-arrow-left inline" style="font-size:24px"></span>Brak odpowiedzi</span>') # dodanie komunikatu błędu
+                    $(this).find("h2").append('<span class="no-answer-error"><span class="glyphicon glyphicon-arrow-left inline" style="font-size:24px"></span>Brak odpowiedzi</span>').fadeIn() # dodanie komunikatu błędu
         )
         if !validation
             if !$("form#survey-form").siblings().prev().is($("div[role=alert]"))
@@ -128,5 +128,5 @@ $(document).on "turbolinks:load", ->
             element = element.parent().prev() # w przeciwnym wypadku nacisnęliśmy pole odpowiedzi i tekst, z którego ma być usunięty błąd znajduje się wyżej w hierarchii
         
         if element.children().is("span") # jeśli komunikat błędu jest dopisany
-            element.remove() # komunikat błędu zostaje usunięty
+            element.children().fadeOut(100, -> element.children().remove()) # komunikat błędu zostaje usunięty
         
