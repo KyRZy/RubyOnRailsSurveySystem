@@ -5,7 +5,7 @@
       <%= @survey.name %>
     </h1>
   </div>
-  <%= form_tag fill_survey_path do %>
+  <%= form_tag fill_survey_path, :id => "survey-form" do %>
     <% if @survey.is_age_required || @survey.is_sex_required || @survey.is_education_required || @survey.is_location_required %>
       <div id="respondent-info-form" class="panel panel-default">
         <h1 class="text-center">Dane wymagane od ankietowanego:</h1>
@@ -59,8 +59,8 @@
           </div>
           </div>
         <% end %>
-        </div>
         <%= submit_tag("Wyślij", class: "btn btn-primary btn-lg") %>
+        </div>
   <% end %>
   </div>
 </div>

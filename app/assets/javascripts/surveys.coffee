@@ -8,7 +8,7 @@ $(document).on "turbolinks:load", ->
         $("#survey-generator").append($("#new_question").html()) # dodanie nowego pytania do formularza
         $("#survey-generator").children(":last").children(".answers").children(":not(:last-child)").children("input").attr("name","answers["+number+"][]") # dodanie odpowiedniego indekstu do nazw inputów
         $("#survey-generator").children(":last").find("strong").html((++number)+".") # dopisanie kolejnej liczby do nowego pytania
-        $("#survey-generator").children(":last").find("input[type=checkbox]").prop("value",number-1) # ustawienie wartości checkboxa jako indeks pytania
+        $("#survey-generator").children(":last").find("input:checkbox").prop("value",number-1) # ustawienie wartości checkboxa jako indeks pytania
         $("html, body").animate({ scrollTop: $(document).height() }, 500); # zescrollowanie do nowo dodanego pytania
 
     $("#survey-generator").on "click", "input", ( -> # dodanie nowej odpowiedzi
@@ -24,7 +24,7 @@ $(document).on "turbolinks:load", ->
             $(this).attr("name",name) # ustawienie odczytanej nazwy inputu do dodanej odpowiedzi
 
             answerNumberString = $(this).parent().prev().children("span").html() # odczytanie numeru z ostatniej odpowiedzi tego pytania
-            answerNumber = parseFloat(answerNumberString.substring(0,answerNumberString.length-1)) # usunięcie kropki i parsowanie do integer
+            answerNumber = parseInt(answerNumberString) # usunięcie kropki i parsowanie do integer
             $(this).prev().removeClass("hidden").html(answerNumber+1+".") # dodanie numeru do odpowiedzi
             $(this).next().removeClass("hidden") # wyświetlenie przycisku usuwającego odpowiedź
             $(this).parent().parent().append($("#new_answer").html()) # dodanie nowego pola na odpowiedź
@@ -35,9 +35,9 @@ $(document).on "turbolinks:load", ->
             while question.next().length # jeśli ankieta zawiera jakieś kolejne pytanie
                 question = question.next() # zapisanie kolejnego pytanie do zmiennej
                 questionNumberString = question.find("span").first().children("strong").html() # odczytanie numeru tego pytania 
-                questionNumber = parseFloat(questionNumberString.substring(0,questionNumberString.length-1)) # usunięcie kropki i parsowanie do integer
+                questionNumber = parseInt(questionNumberString) # usunięcie kropki i parsowanie do integer
                 question.find("span").first().children("strong").html((questionNumber-1)+".") # zmniejszenie numeru pytania o 1
-                question.find("input[type=checkbox]").prop("value",number-2) # zmniejszenie wartości checkboxa o 1 (ma być o 1 mniejsza od numeracji pytania)
+                question.find("input:checkbox").prop("value",number-2) # zmniejszenie wartości checkboxa o 1 (ma być o 1 mniejsza od numeracji pytania)
 
                 question.children(".answers").children(":not(:last-child)").children("input").attr("name","answers["+(questionNumber-2)+"][]") # zmniejszenie indeksu tabeli 2-wymiarowej w nazwie inputu
             $(this).parents().eq(3).remove() # usunięcie oryginalnego pytania
@@ -51,7 +51,7 @@ $(document).on "turbolinks:load", ->
             while answer.next().length # jeśli pytanie zawiera jakieś kolejną odpowiedź
                 answer = answer.next() # zapisanie kolejnej odpowiedzi do zmiennej
                 answerNumberString = answer.children("span").first().html() # odczytanie numeru tej odpowiedzi
-                answerNumber = parseFloat(answerNumberString.substring(0,answerNumberString.length-1)) # usunięcie kropki i parsowanie do integer
+                answerNumber = parseInt(answerNumberString) # usunięcie kropki i parsowanie do integer
                 answer.children("span").first().html((answerNumber-1)+".") # zmniejszenie numeru odpowiedzi o 1
             $(this).parents().eq(1).remove() # usunięcie oryginalnej odpowiedzi
     )
@@ -71,13 +71,62 @@ $(document).on "turbolinks:load", ->
                     $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
         ) 
         if !validation # jeśli formularz nie przeszedł walidacji, dane z formularza NIE zostaną przesłane do serwera
-            $("div[role=alert]").removeClass("hidden")
+            # $("div[role=alert]").removeClass("hidden")
+            if !$("form#survey-generator-form").prev().is($("div[role=alert]"))
+                $("form#survey-generator-form").before('<div class="alert alert-danger" role="alert">
+                                                            <button type="button" class="close">&times;</button>
+                                                            <strong>Błąd!</strong> W ankiecie znaleziono niewypełnione pola. Proszę je wypełnić i spróbować ponownie zapisać ankietę.
+                                                        </div>')
             $("html, body").animate({ scrollTop: 0 }, 200); # zescrollowanie do początku strony
             false
         else
             true
-    $("button.close").on "click", ->
-        $("div[role=alert]").addClass("hidden")
+    $(".container").on "click", "button.close", ->
+        $("div[role=alert]").remove()
 
     $('body').tooltip(selector: '[data-toggle=tooltip]') # włączenie podpowiedzi pojawiających się po najechaniu na przyciski X przy pytaniach i odpowiedziach
     $('#survey_start_date, #survey_end_date').datetimepicker({locale: 'pl', format: 'LL'});
+
+    $("form#survey-form").on "submit", ->
+        validation = true # formularz wstępnie zostaje oceniony jako poprawnie uzupełniony
+        if $("#respondent_age").val() == "" # jeśli pole na wiek jest puste
+            $("#respondent_age").parent().addClass("has-error") # oznacz pole jako błędne
+            validation = false
+        sexError = !$('input:radio[name="respondent[sex]"]').first().is(':checked') && !$('input:radio[name="respondent[sex]"]').last().is(':checked') # jeśli płeć nie została określona ustaw flagę błędu
+        if sexError && $('.respondent-sex h2').children().length == 0 # jeśli znaleziono błąd przy deklaracji płci i komunikat błędu nie został już dodany
+            $('.respondent-sex h2').append('<span class="no-answer-error"><span class="glyphicon glyphicon-arrow-left inline" style="font-size:24px"></span>Brak odpowiedzi</span>') # dodanie komunikatu błędu
+            validation = false
+        $(".question").each ( -> # dla każdego pytania
+            answerIsSelected = false # wstępnie zostaje ustalone, że żadna z odpowiedzi nie została zaznaczona
+            $(this).find("input").each -> # dla każdej odpowiedzi
+                if $(this).is(':checked') && !answerIsSelected # jeśli odpowiedź została zaznaczona i wcześniej nie znaleziono zaznaczonej odpowiedzi dla tego pytania
+                    answerIsSelected = true  # ustawienie flagi zaznaczenia odpowiedzi
+            if !answerIsSelected  # jeśli żadna z odpowiedzi nie została zaznaczona
+                validation = false 
+                if !$(this).find("h2").children().is("span") # jeśli komunikat błędu nie został już wcześniej dodany
+                    $(this).find("h2").append('<span class="no-answer-error"><span class="glyphicon glyphicon-arrow-left inline" style="font-size:24px"></span>Brak odpowiedzi</span>') # dodanie komunikatu błędu
+        )
+        if !validation
+            if !$("form#survey-form").siblings().prev().is($("div[role=alert]"))
+                $("form#survey-form").before('<div class="alert alert-danger" role="alert">
+                                                            <button type="button" class="close">&times;</button>
+                                                            <strong>Błąd!</strong> W ankiecie znaleziono pytania bez zaznaczonej odpowiedzi. Proszę na nie odpowiedzieć i spróbować ponownie wysłać ankietę.
+                                                        </div>')
+            $("html, body").animate({ scrollTop: 0 }, 200); # zescrollowanie do początku strony
+            false
+        else
+            true
+
+    $("#respondent_age").on "click", ->
+        if $(this).parent().hasClass("has-error") # jeśli kliknięte pole było zaznaczone jako błędne
+            $(this).parent().removeClass("has-error") # usunięcie błędu
+    $("input:radio,input:checkbox").on "click", ->
+        element = $(this).parent().parent().parent() # zapisanie elementu DOM do zmiennej w celu późniejszego określenia, który input został naciśnięty
+        if !element.hasClass("answer") # jeśli naciśnięty input nie jest odpowiedzią
+            element = element.prev() # oznacza to, że jest polem płci i tekst, z którego ma być usunięty błąd znajduje się element wcześniej
+        else
+            element = element.parent().prev() # w przeciwnym wypadku nacisnęliśmy pole odpowiedzi i tekst, z którego ma być usunięty błąd znajduje się wyżej w hierarchii
+        
+        if element.children().is("span") # jeśli komunikat błędu jest dopisany
+            element.remove() # komunikat błędu zostaje usunięty
+        
