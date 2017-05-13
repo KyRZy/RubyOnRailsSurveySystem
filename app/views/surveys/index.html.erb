@@ -25,7 +25,7 @@
 			<td><%= survey.is_available_for_all %></td>
 			<td><%= survey.administrator_id %></td>
 			<td><%= Category.find(survey.category_id).name %></td>
-			<td><%= link_to 'Wypełnij', survey, method: :show %></td>
+			<td><%= link_to 'Wypełnij', survey, action: :show %></td>
 			<td><%= link_to 'Usuń', survey, method: :delete, data: { confirm: 'Czy jesteś pewien?' } %></td>
 		  </tr>
 		<% end %>
@@ -39,7 +39,7 @@
 			<td><%= survey.is_available_for_all %></td>
 			<td><%= survey.administrator_id %></td>
 			<td><%= survey.category_id %></td>
-			<td><%= link_to 'Wypełnij', survey, method: :show %></td>
+			<td><%= link_to 'Wypełnij', survey, action: :show %></td>
 		  </tr>
 		<% end %>
 	<% end %>
