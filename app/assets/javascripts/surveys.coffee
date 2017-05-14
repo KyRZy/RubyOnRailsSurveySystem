@@ -98,16 +98,18 @@ $(document).on "turbolinks:load", ->
             validation = false
         $(".question").each ( -> # dla każdego pytania
             answerIsSelected = false # wstępnie zostaje ustalone, że żadna z odpowiedzi nie została zaznaczona
-            $(this).find("input").each -> # dla każdej odpowiedzi
-                if $(this).is(':checked') && !answerIsSelected # jeśli odpowiedź została zaznaczona i wcześniej nie znaleziono zaznaczonej odpowiedzi dla tego pytania
+            $(this).find("input").each ( -> # dla każdej odpowiedzi
+                if $(this).is(':checked')# jeśli odpowiedź została zaznaczona
                     answerIsSelected = true  # ustawienie flagi zaznaczenia odpowiedzi
+                    false # przerwanie pętli each, odpowiednik break
+            ) 
             if !answerIsSelected  # jeśli żadna z odpowiedzi nie została zaznaczona
                 validation = false 
                 if !$(this).find("h2").children().is("span") # jeśli komunikat błędu nie został już wcześniej dodany
                     $(this).find("h2").append('<span class="no-answer-error"><span class="glyphicon glyphicon-arrow-left inline" style="font-size:24px"></span>Brak odpowiedzi</span>').fadeIn() # dodanie komunikatu błędu
         )
         if !validation
-            if !$("form#survey-form").siblings().prev().is($("div[role=alert]"))
+            if !$("form#survey-form").prev().is($("div[role=alert]"))
                 $("form#survey-form").before('<div class="alert alert-danger" role="alert">
                                                             <button type="button" class="close">&times;</button>
                                                             <strong>Błąd!</strong> W ankiecie znaleziono pytania bez zaznaczonej odpowiedzi. Proszę na nie odpowiedzieć i spróbować ponownie wysłać ankietę.
@@ -116,7 +118,7 @@ $(document).on "turbolinks:load", ->
             false
         else
             true
-
+        
     $("#respondent_age").on "click", ->
         if $(this).parent().hasClass("has-error") # jeśli kliknięte pole było zaznaczone jako błędne
             $(this).parent().removeClass("has-error") # usunięcie błędu
