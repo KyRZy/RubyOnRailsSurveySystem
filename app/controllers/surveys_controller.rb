@@ -14,23 +14,29 @@ class SurveysController < ApplicationController
   end
   
   def fill
-	respondent_param = params[:respondent]
-    @respondent = Respondent.create(:age => respondent_param[:age], :sex => respondent_param[:sex], :education => respondent_param[:education], :location => respondent_param[:location], :ip_address => request.remote_ip)
-	question_param = params[:question]
-	question_param.each do |question, answers|
-		answers.each do |answer_id|
-			answer_respondent = AnswerRespondent.create(:answer_id => answer_id, :respondent_id => @respondent.id)
+	Survey.transaction do
+		respondent_param = params[:respondent]
+		@respondent = Respondent.create(:age => respondent_param[:age], :sex => respondent_param[:sex], :education => respondent_param[:education], :location => respondent_param[:location], :ip_address => request.remote_ip)
+		question_param = params[:question]
+		question_param.each do |question, answers|
+			answers.each do |answer_id|
+				answer_respondent = AnswerRespondent.create(:answer_id => answer_id, :respondent_id => @respondent.id)
+				if !answer_respondent.valid?
+					raise ActiveRecord::Rollback
+				end
+			end
+		end
+		respond_to do |format|
+		  if @respondent.save
+			format.html { redirect_to root_path, notice: 'Dziękujemy za wypełnienie ankiety!' }
+			format.json { redirect_to root_path, notice: 'Dziękujemy za wypełnienie ankiety!' }
+		  else
+		    raise ActiveRecord::Rollback
+			format.html { redirect_to root_path, notice: 'Wystąpił błąd przy wypełnianiu ankiety!' }
+			format.json { redirect_to root_path, notice: 'Wystąpił błąd przy wypełnianiu ankiety!' }
+		  end
 		end
 	end
-	respond_to do |format|
-      if @respondent.save
-        format.html { redirect_to root_path, notice: 'Dziękujemy za wypełnienie ankiety!' }
-        format.json { redirect_to root_path, notice: 'Dziękujemy za wypełnienie ankiety!' }
-      else
-        format.html { redirect_to root_path, notice: 'Wystąpił błąd przy wypełnianiu ankiety!' }
-        format.json { redirect_to root_path, notice: 'Wystąpił błąd przy wypełnianiu ankiety!' }
-      end
-    end
   end
 
   # GET /surveys/new
@@ -47,44 +53,49 @@ class SurveysController < ApplicationController
   def create
   
 	Survey.transaction do
-		@survey = Survey.new(survey_params)
-		@survey.administrator_id = current_administrator.id
-		@questions = []
-		@answers = []
-		question_param = params[:questions]
-		answer_param = params[:answers]
-		question_type_param = params[:question_type]
-		
-		question_param.each.with_index do |content, index_q|
-			indeks = index_q.to_s
-			if question_type_param.nil?
-				question = Question.new(:content => content, :order => index_q, :question_type => "JEDNOKROTNEGO_WYBORU")
-			else
-				if question_type_param.include?(indeks)
-					question = Question.new(:content => content, :order => index_q, :question_type => "WIELOKROTNEGO_WYBORU")
-				else
+			@survey = Survey.new(survey_params)
+			@survey.administrator_id = current_administrator.id
+			@questions = []
+			@answers = []
+			question_param = params[:questions]
+			answer_param = params[:answers]
+			question_type_param = params[:question_type]
+			
+			question_param.each.with_index do |content, index_q|
+				indeks = index_q.to_s
+				if question_type_param.nil?
 					question = Question.new(:content => content, :order => index_q, :question_type => "JEDNOKROTNEGO_WYBORU")
+				else
+					if question_type_param.include?(indeks)
+						question = Question.new(:content => content, :order => index_q, :question_type => "WIELOKROTNEGO_WYBORU")
+					else
+						question = Question.new(:content => content, :order => index_q, :question_type => "JEDNOKROTNEGO_WYBORU")
+					end
 				end
+				if !question.save 
+					raise ActiveRecord::Rollback
+				end
+				replies = answer_param[indeks]
+					replies.each.with_index do |reply, index_a|
+						answer = Answer.new(:reply => reply, :order => index_a, :question_id => question.id)
+						if !answer.save
+							raise ActiveRecord::Rollback
+						end
+					end
+				@questions.push(question)
 			end
-			question.save!
-			replies = answer_param[indeks]
-				replies.each.with_index do |reply, index_a|
-					answer = Answer.new(:reply => reply, :order => index_a, :question_id => question.id)
-					answer.save!
-				end
-			@questions.push(question)
+			@survey.questions = @questions
+		respond_to do |format|
+		  if @survey.save
+			format.html { redirect_to @survey, notice: 'Poprawnie utworzono ankietę.' }
+			format.json { render :show, status: :created, location: @survey }
+		  else
+			raise ActiveRecord::Rollback
+			format.html { render :new }
+			format.json { render json: @survey.errors.full_messages, status: :unprocessable_entity}
+		  end
 		end
-		@survey.questions = @questions
 	end
-    respond_to do |format|
-      if @survey.save
-        format.html { redirect_to @survey, notice: 'Poprawnie utworzono ankietę.' }
-        format.json { render :show, status: :created, location: @survey }
-      else
-        format.html { render :new }
-        format.json { render json: @survey.errors.full_messages, status: :unprocessable_entity}
-      end
-    end
   end
 
   # PATCH/PUT /surveys/1
