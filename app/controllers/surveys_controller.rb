@@ -28,12 +28,14 @@ class SurveysController < ApplicationController
 		end
 		respond_to do |format|
 		  if @respondent.save
-			format.html { redirect_to root_path, notice: 'Dziękujemy za wypełnienie ankiety!' }
+			format.html { redirect_to root_path }
 			format.json { redirect_to root_path, notice: 'Dziękujemy za wypełnienie ankiety!' }
+			flash[:success] = 'Dziękujemy za wypełnienie ankiety!'
 		  else
 		    raise ActiveRecord::Rollback
-			format.html { redirect_to root_path, notice: 'Wystąpił błąd przy wypełnianiu ankiety!' }
+			format.html { redirect_to root_path }
 			format.json { redirect_to root_path, notice: 'Wystąpił błąd przy wypełnianiu ankiety!' }
+			flash[:error] = 'Wystąpił błąd przy wypełnianiu ankiety!'
 		  end
 		end
 	end
