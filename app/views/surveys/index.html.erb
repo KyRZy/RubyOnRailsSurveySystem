@@ -38,7 +38,7 @@
 			<td><%= survey.is_public %></td>
 			<td><%= survey.is_available_for_all %></td>
 			<td><%= survey.administrator_id %></td>
-			<td><%= survey.category_id %></td>
+			<td><%= Category.find(survey.category_id).name %></td>
 			<td><%= link_to 'Wypełnij', survey, action: :show %></td>
 		  </tr>
 		<% end %>
@@ -49,5 +49,5 @@
 <br>
 
 <% if administrator_signed_in? %>
-<%= link_to 'New Survey', new_survey_path %>
+<%= link_to 'Utwórz nową ankietę', new_survey_path %>
 <% end %>
