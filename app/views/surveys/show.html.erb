@@ -41,9 +41,10 @@
       </div>
       <% end %>
       <div id="survey" class="panel panel-default">
+        <% counter = 0 %>
         <% @survey.questions.each do |q| %>
         <div class="question">
-          <h2><%= q.content %></h2>
+          <h2><%="#{counter+=1}. #{q.content}" %></h2>
           <div class="answers">
           <% q.answers.each do |a| %>
             <% if q.question_type == "JEDNOKROTNEGO_WYBORU" %>

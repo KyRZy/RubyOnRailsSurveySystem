@@ -89,8 +89,9 @@ class SurveysController < ApplicationController
 			@survey.questions = @questions
 		respond_to do |format|
 		  if @survey.save
-			format.html { redirect_to @survey, notice: 'Poprawnie utworzono ankietę.' }
+			format.html { redirect_to @survey }
 			format.json { render :show, status: :created, location: @survey }
+			flash[:success] = 'Poprawnie utworzono ankietę.'
 		  else
 			raise ActiveRecord::Rollback
 			format.html { render :new }
@@ -105,8 +106,9 @@ class SurveysController < ApplicationController
   def update
     respond_to do |format|
       if @survey.update(survey_params)
-        format.html { redirect_to @survey, notice: 'Ankieta została poprawnie zaktualizowana.' }
+        format.html { redirect_to @survey }
         format.json { render :show, status: :ok, location: @survey }
+				flash[:success] = 'Ankieta została poprawnie zaktualizowana.'
       else
         format.html { render :edit }
         format.json { render json: @survey.errors, status: :unprocessable_entity }
@@ -119,8 +121,9 @@ class SurveysController < ApplicationController
   def destroy
     @survey.destroy
     respond_to do |format|
-      format.html { redirect_to surveys_url, notice: 'Poprawnie usunięto ankietę.' }
+      format.html { redirect_to surveys_url }
       format.json { head :no_content }
+			flash[:success] = 'Poprawnie usunięto ankietę.'
     end
   end
 
