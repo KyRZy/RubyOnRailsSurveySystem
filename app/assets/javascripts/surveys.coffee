@@ -84,6 +84,10 @@ $(document).on "turbolinks:load", ->
     $(".container").on "click", "button.close", ->
         $("div[role=alert]").remove()
 
+    $('#surveySortedByCategories a').on "click", (e) ->
+        e.preventDefault()
+        $(this).tab('show')
+
     $('body').tooltip(selector: '[data-toggle=tooltip]') # włączenie podpowiedzi pojawiających się po najechaniu na przyciski X przy pytaniach i odpowiedziach
     $('#survey_start_date, #survey_end_date').datetimepicker({locale: 'pl', format: 'LL'});
 
