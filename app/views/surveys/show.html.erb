@@ -1,8 +1,13 @@
+<% if(@is_survey_author) %>
+    <div class="alert alert-info" role="alert">
+      <button type="button" class="close">&times;</button>
+      Jako autor ankiety nie możesz wziąć w niej udziału
+    </div>
+  <% end  %>
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-offset-1 col-lg-10 col-lg-offset-1">
-
   <div class="row">
     <h1 id="survey-title" class="text-center">
-      <%= @survey.name %>
+      <%= @survey.name %> <%= @is_creator%>
     </h1>
   </div>
   <%= form_tag fill_survey_path, :id => "survey-form" do %>
@@ -60,7 +65,11 @@
           </div>
           </div>
         <% end %>
-        <%= submit_tag("Wyślij", class: "btn btn-primary btn-lg") %>
+        <% if(@is_survey_author) %>
+          <%= submit_tag("Brak możliwości wysłania ankiety przez autora", disabled: true, class: "btn btn-primary btn-lg") %>
+        <% else %>
+          <%= submit_tag("Wyślij", class: "btn btn-primary btn-lg") %>
+        <% end %>
         </div>
   <% end %>
   </div>

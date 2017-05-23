@@ -1,5 +1,7 @@
 class SurveysController < ApplicationController
-  before_action :set_survey, only: [:show, :edit, :update, :destroy]
+  before_action :set_survey, only: [:show, :edit, :update, :destroy, :is_survey_creator?]
+	before_action :already_filled_this_survey?, only: [:show]
+	before_action :is_survey_creator?, only: [:show]
 
   # GET /surveys
   # GET /surveys.json
@@ -35,7 +37,7 @@ class SurveysController < ApplicationController
 		    raise ActiveRecord::Rollback
 			format.html { redirect_to root_path }
 			format.json { redirect_to root_path, notice: 'Wystąpił błąd przy wypełnianiu ankiety!' }
-			flash[:error] = 'Wystąpił błąd przy wypełnianiu ankiety!'
+			flash[:danger] = 'Wystąpił błąd przy wypełnianiu ankiety!'
 		  end
 		end
 	end
@@ -129,6 +131,21 @@ class SurveysController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+		def already_filled_this_survey?
+			if(Respondent.where(:ip_address => request.remote_ip))
+				flash[:danger] = "Każdy użytkownik może wypełnić ankietę TYLKO RAZ."
+      	##redirect_to surveys_path   ##odkomentować jeśli chce się zablokować ponowny dostęp do ankiety po jej wypełnieniu
+			end
+		end
+
+		def is_survey_creator?
+			if (current_administrator.id == @survey.administrator_id)
+				@is_survey_author = true
+			else
+				@is_survey_author = false
+			end
+		end
+
     def set_survey
       @survey = Survey.find(params[:id])
     end
