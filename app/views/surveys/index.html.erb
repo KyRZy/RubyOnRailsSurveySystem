@@ -13,7 +13,6 @@
 			  <!--
 			  <th>Czy jest publiczna?</th>
 			  <th>Czy jest dostępna dla wszystkich?</th>
-			  <th>Administrator</th>
 			  -->
 		  <th>Kategoria</th>
 		  <th colspan="3"></th>
@@ -29,7 +28,6 @@
 					<!--
 					<td><%= (survey.is_public)?"prawda":"fałsz" %></td>
 					<td><%= (survey.is_available_for_all)?"prawda":"fałsz" %></td>
-					<td><%= survey.administrator_id %></td>
 					-->
 				<td><%= Category.find(survey.category_id).name %></td>
 				<td><%= link_to 'Wypełnij', survey, action: :show %></td>
@@ -53,8 +51,8 @@
 			  <!--
 			  <th>Czy jest publiczna?</th>
 			  <th>Czy jest dostępna dla wszystkich?</th>
-			  <th>Administrator</th>
 			  -->
+  			  <th>Administrator</th>
 		  <th>Kategoria</th>
 		  <th colspan="3"></th>
 		</tr>
@@ -69,8 +67,8 @@
 					<!--
 					<td><%= (survey.is_public)?"prawda":"fałsz" %></td>
 					<td><%= (survey.is_available_for_all)?"prawda":"fałsz" %></td>
-					<td><%= survey.administrator_id %></td>
 					-->
+				<td><%= Administrator.find(survey.administrator_id).login %></td>
 				<td><%= Category.find(survey.category_id).name %></td>
 				<td><%= link_to 'Wypełnij', survey, action: :show %></td>
 			  </tr>
@@ -113,8 +111,8 @@
 											<!--
 											<th>Czy jest publiczna?</th>
 											<th>Czy jest dostępna dla wszystkich?</th>
-											<th>Administrator</th>
 											-->
+										<th>Administrator</th>	
 										<th>Kategoria</th>
 										<th colspan="3"></th>
 									</tr>
@@ -129,8 +127,8 @@
 											<!--
 											<td><%= (survey.is_public)?"prawda":"fałsz" %></td>
 											<td><%= (survey.is_available_for_all)?"prawda":"fałsz" %></td>
-											<td><%= survey.administrator_id %></td>
 											-->
+										<td><%= Administrator.find(survey.administrator_id).login %></td>
 										<td><%= Category.find(survey.category_id).name %></td>
 										<td><%= link_to 'Wypełnij', survey, action: :show %></td>
 										</tr>

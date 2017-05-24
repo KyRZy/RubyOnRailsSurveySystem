@@ -132,15 +132,23 @@ class SurveysController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
 		def already_filled_this_survey?
-			if(Respondent.where(:ip_address => request.remote_ip))
-				flash[:danger] = "Każdy użytkownik może wypełnić ankietę TYLKO RAZ."
-      	##redirect_to surveys_path   ##odkomentować jeśli chce się zablokować ponowny dostęp do ankiety po jej wypełnieniu
+			answer_respondents = AnswerRespondent.where(answer_id:Survey.last.answers).each do |ar|
+				if Respondent.exists?(ar.respondent_id)
+					if Respondent.find(ar.respondent_id).ip_address == request.remote_ip
+						flash[:danger] = "Każdy użytkownik może wypełnić ankietę TYLKO RAZ."
+						#redirect_to surveys_path   ##odkomentować jeśli chce się zablokować ponowny dostęp do ankiety po jej wypełnieniu
+					end
+				end
 			end
 		end
 
 		def is_survey_creator?
-			if (current_administrator.id == @survey.administrator_id)
-				@is_survey_author = true
+			if (current_administrator != nil)
+				if (current_administrator.id == @survey.administrator_id)
+					@is_survey_author = true
+				else
+					@is_survey_author = false
+				end
 			else
 				@is_survey_author = false
 			end
