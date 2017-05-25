@@ -1,7 +1,7 @@
 class SurveysController < ApplicationController
   before_action :set_survey, only: [:show, :edit, :update, :destroy, :is_survey_creator?, :is_opened?]
 	before_action :already_filled_this_survey?, only: [:show]
-	before_action :is_survey_creator?, only: [:show]
+	before_action :is_survey_author?, only: [:show]
 	before_action :is_opened?, only: [:show]
 
   # GET /surveys
@@ -143,15 +143,11 @@ class SurveysController < ApplicationController
 			end
 		end
 
-		def is_survey_creator?
-			if (current_administrator != nil)
-				if (current_administrator.id == @survey.administrator_id)
+		def is_survey_author?
+			if (current_administrator != nil && current_administrator.id == @survey.administrator_id)
 					@is_survey_author = true
-				else
-					@is_survey_author = false
-				end
 			else
-				@is_survey_author = false
+					@is_survey_author = false
 			end
 		end
 		
