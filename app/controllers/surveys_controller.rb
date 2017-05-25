@@ -133,7 +133,7 @@ class SurveysController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
 		def already_filled_this_survey?
-			answer_respondents = AnswerRespondent.where(answer_id:Survey.last.answers).each do |ar|
+			answer_respondents = AnswerRespondent.where(answer_id:@survey.questions.first.answers).each do |ar|
 				if Respondent.exists?(ar.respondent_id)
 					if Respondent.find(ar.respondent_id).ip_address == request.remote_ip
 						flash[:danger] = "Każdy użytkownik może wypełnić ankietę TYLKO RAZ."
