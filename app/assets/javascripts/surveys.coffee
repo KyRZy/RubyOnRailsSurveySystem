@@ -70,10 +70,36 @@ $(document).on "turbolinks:load", ->
                 if $(this).next().hasClass("input-group-btn") # jeśli dane pole miało przycisk usuwania
                     $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
         ) 
+        startDateString = $("#survey_start_date").datepicker('getDate')
+        endDateString = $("#survey_end_date").datepicker('getDate')
+
+        startDate = new Date startDateString
+        endDate = new Date endDateString
+
+        if startDate > endDate
+            alertIsAlreadyShown = false
+
+            $("div[role=alert]").each ->
+                if $(this).data('errortype') == "date"
+                    alertIsAlreadyShown = true   
+
+            if !alertIsAlreadyShown
+                $("form#survey-generator-form").before('<div class="alert alert-danger" role="alert" data-errortype="date">
+                                                            <button type="button" class="close">&times;</button>
+                                                            <strong>Błąd!</strong> Data rozpoczęcia ankiety nie może być późniejsza od daty jej zakończenia
+                                                        </div>')
+            $("html, body").animate({ scrollTop: 0 }, 200); # zescrollowanie do początku strony
+            false
         if !validation # jeśli formularz nie przeszedł walidacji, dane z formularza NIE zostaną przesłane do serwera
             # $("div[role=alert]").removeClass("hidden")
-            if !$("form#survey-generator-form").prev().is($("div[role=alert]"))
-                $("form#survey-generator-form").before('<div class="alert alert-danger" role="alert">
+            alertIsAlreadyShown = false
+            
+            $("div[role=alert]").each ->
+                if $(this).data('errortype') == "input"
+                    alertIsAlreadyShown = true 
+
+            if !alertIsAlreadyShown
+                $("form#survey-generator-form").before('<div class="alert alert-danger" role="alert" data-errortype="input">
                                                             <button type="button" class="close">&times;</button>
                                                             <strong>Błąd!</strong> W ankiecie znaleziono niewypełnione pola. Proszę je wypełnić i spróbować ponownie zapisać ankietę.
                                                         </div>')
@@ -88,6 +114,7 @@ $(document).on "turbolinks:load", ->
     $('#survey_start_date, #survey_end_date').datepicker({
         maxViewMode: 2,
         language: "pl",
+        format: "dd/mm/yyyy",
         autoclose: true,
         todayHighlight: true
     });
