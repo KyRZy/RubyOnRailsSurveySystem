@@ -3,6 +3,7 @@ class SurveysController < ApplicationController
 	before_action :already_filled_this_survey?, only: [:show]
 	before_action :is_survey_author?, only: [:show]
 	before_action :is_opened?, only: [:show]
+	before_action :is_logged?, only: [:new]
 
   # GET /surveys
   # GET /surveys.json
@@ -137,9 +138,16 @@ class SurveysController < ApplicationController
 				if Respondent.exists?(ar.respondent_id)
 					if Respondent.find(ar.respondent_id).ip_address == request.remote_ip
 						flash[:danger] = "Każdy użytkownik może wypełnić ankietę TYLKO RAZ."
-						#redirect_to surveys_path   ##odkomentować jeśli chce się zablokować ponowny dostęp do ankiety po jej wypełnieniu
+						#redirect_to root_path   ##odkomentować jeśli chce się zablokować ponowny dostęp do ankiety po jej wypełnieniu
 					end
 				end
+			end
+		end
+
+		def is_logged?
+			if current_administrator == nil
+				flash[:danger] = "Musisz być zalogowany, żeby mieć dostęp do tej podstrony."
+				redirect_to root_path
 			end
 		end
 

@@ -62,6 +62,7 @@ $(document).on "turbolinks:load", ->
         $("#survey_is_available_for_all").prop('checked', false) # odznaczony zostaje także checkbox pozwalający WSZYSTKIM na dostęp do wyników ankiety
 
     $("form#survey-generator-form").on "submit",  -> # walidacja formularza po naciśnięciu przycisku
+        submit = true
         validation = true # formularz wstępnie zostaje oceniony jako poprawnie uzupełniony
         $("input[type=text]").each( -> # dla każdego pola tekstowego
             if $(this).val() == "" && !$(this).hasClass("pressForNewAnswer") && !$(this).parents().eq(3).is("#new_question") # jeśli jest puste i nie jest ani polem do dodawania odpowiedzi ani schowanym pytaniem
@@ -89,7 +90,7 @@ $(document).on "turbolinks:load", ->
                                                             <strong>Błąd!</strong> Data rozpoczęcia ankiety nie może być późniejsza od daty jej zakończenia
                                                         </div>')
             $("html, body").animate({ scrollTop: 0 }, 200); # zescrollowanie do początku strony
-            false
+            submit = false
         if !validation # jeśli formularz nie przeszedł walidacji, dane z formularza NIE zostaną przesłane do serwera
             # $("div[role=alert]").removeClass("hidden")
             alertIsAlreadyShown = false
@@ -104,9 +105,11 @@ $(document).on "turbolinks:load", ->
                                                             <strong>Błąd!</strong> W ankiecie znaleziono niewypełnione pola. Proszę je wypełnić i spróbować ponownie zapisać ankietę.
                                                         </div>')
             $("html, body").animate({ scrollTop: 0 }, 200); # zescrollowanie do początku strony
-            false
-        else
+            submit = false
+        if submit
             true
+        else
+            false
     $(".container").on "click", "button.close", ->
         $(this).parent().remove()
 
