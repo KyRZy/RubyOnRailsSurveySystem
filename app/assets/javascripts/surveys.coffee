@@ -89,12 +89,13 @@ $(document).on "turbolinks:load", ->
 
     $("form#survey-form").on "submit", ->
         validation = true # formularz wstępnie zostaje oceniony jako poprawnie uzupełniony
-        if $("#respondent_age").val() == "" # jeśli pole na wiek jest puste
+        if $("#respondent_age").length && $("#respondent_age").val() == "" # jeśli pole na wiek jest puste
             $("#respondent_age").parent().addClass("has-error") # oznacz pole jako błędne
             validation = false
-        sexError = !$('input:radio[name="respondent[sex]"]').first().is(':checked') && !$('input:radio[name="respondent[sex]"]').last().is(':checked') # jeśli płeć nie została określona ustaw flagę błędu
+        if $('input:radio[name="respondent[sex]"]').length
+            sexError = !$('input:radio[name="respondent[sex]"]').first().is(':checked') && !$('input:radio[name="respondent[sex]"]').last().is(':checked') # jeśli płeć nie została określona ustaw flagę błędu
         if sexError && $('.respondent-sex h2').children().length == 0 # jeśli znaleziono błąd przy deklaracji płci i komunikat błędu nie został już dodany
-            $('.respondent-sex h2').append('<span class="no-answer-error"><span class="glyphicon glyphicon-arrow-left inline" style="font-size:24px"></span>Brak odpowiedzi</span>').fadeIn() # dodanie komunikatu błędu
+            $('.respondent-sex h2').append('<span class="no-answer-error"><span class="glyphicon glyphicon-arrow-left inline" style="font-size:24px"></span>Brak odpowiedzi</span>') # dodanie komunikatu błędu
             validation = false
         $(".question").each ( -> # dla każdego pytania
             answerIsSelected = false # wstępnie zostaje ustalone, że żadna z odpowiedzi nie została zaznaczona
@@ -106,7 +107,7 @@ $(document).on "turbolinks:load", ->
             if !answerIsSelected  # jeśli żadna z odpowiedzi nie została zaznaczona
                 validation = false 
                 if !$(this).find("h2").children().is("span") # jeśli komunikat błędu nie został już wcześniej dodany
-                    $(this).find("h2").append('<span class="no-answer-error"><span class="glyphicon glyphicon-arrow-left inline" style="font-size:24px"></span>Brak odpowiedzi</span>').fadeIn() # dodanie komunikatu błędu
+                    $(this).find("h2").append('<span class="no-answer-error"><span class="glyphicon glyphicon-arrow-left inline" style="font-size:24px"></span>Brak odpowiedzi</span>') # dodanie komunikatu błędu
         )
         if !validation
             if !$("form#survey-form").prev().is($("div[role=alert]"))
