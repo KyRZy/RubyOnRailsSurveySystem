@@ -20,7 +20,11 @@ class SurveysController < ApplicationController
   def fill
 	Survey.transaction do
 		respondent_param = params[:respondent]
-		@respondent = Respondent.create(:age => respondent_param[:age], :sex => respondent_param[:sex], :education => respondent_param[:education], :location => respondent_param[:location], :ip_address => request.remote_ip)
+		if(respondent_param.nil?)
+			@respondent = Respondent.create(:age => nil, :sex => nil, :education => nil, :location => nil, :ip_address => request.remote_ip)
+		else
+			@respondent = Respondent.create(:age => respondent_param[:age], :sex => respondent_param[:sex], :education => respondent_param[:education], :location => respondent_param[:location], :ip_address => request.remote_ip)
+		end
 		question_param = params[:question]
 		question_param.each do |question, answers|
 			answers.each do |answer_id|
