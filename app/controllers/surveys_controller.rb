@@ -1,5 +1,5 @@
 class SurveysController < ApplicationController
-  before_action :set_survey, only: [:show, :edit, :update, :destroy, :is_survey_creator?, :is_opened?]
+  before_action :set_survey, only: [:show, :edit, :update, :destroy, :stats, :is_survey_creator?, :is_opened?]
 	before_action :already_filled_this_survey?, only: [:show]
 	before_action :is_survey_author?, only: [:show]
 	before_action :is_opened?, only: [:show]
@@ -131,6 +131,10 @@ class SurveysController < ApplicationController
     end
   end
 
+  def stats
+	
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
 		def already_filled_this_survey?

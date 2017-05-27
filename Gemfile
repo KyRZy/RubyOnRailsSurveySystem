@@ -25,6 +25,9 @@ gem 'coffee-script-source', '~> 1.8.0'
 gem 'devise', '4.2.1'
 gem 'bootstrap-sass'
 
+# Chartkick
+gem 'chartkick'
+
 # Bootstrap datetimepicker
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'

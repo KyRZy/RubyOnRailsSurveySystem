@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   resources :respondents
   resources :answers
   resources :questions
-  resources :surveys
+  resources :surveys do
+    member do
+		get 'stats'
+	end
+  end
   resources :categories
   devise_for :administrators
   get 'static_pages/home'
