@@ -40,16 +40,16 @@
                 <% answersAge4 = Hash.new %>
                 <% answersAge5 = Hash.new %>
                 <% q.answers.each do |a| %>
-                    <% @@age1 = Respondent.joins(:answers).where('answers.id = ? AND age <= 18 ',a.id) %>
-                    <% @@age2 = Respondent.joins(:answers).where('answers.id = ? AND age > 18 AND age <= 30',a.id) %>
-                    <% @@age3 = Respondent.joins(:answers).where('answers.id = ? AND age > 30 AND age <= 50',a.id) %>
-                    <% @@age4 = Respondent.joins(:answers).where('answers.id = ? AND age > 50 AND age <= 80',a.id) %>
-                    <% @@age5 = Respondent.joins(:answers).where('answers.id = ? AND age > 80 ',a.id) %>
-                    <% answersAge1["#{a.reply}"] = @@age1.count %>
-                    <% answersAge2["#{a.reply}"] = @@age2.count %>
-                    <% answersAge3["#{a.reply}"] = @@age3.count %>
-                    <% answersAge4["#{a.reply}"] = @@age4.count %>
-                    <% answersAge5["#{a.reply}"] = @@age5.count %>
+                    <% age1 = Respondent.joins(:answers).where('answers.id = ? AND age <= 18 ',a.id) %>
+                    <% age2 = Respondent.joins(:answers).where('answers.id = ? AND age > 18 AND age <= 30',a.id) %>
+                    <% age3 = Respondent.joins(:answers).where('answers.id = ? AND age > 30 AND age <= 50',a.id) %>
+                    <% age4 = Respondent.joins(:answers).where('answers.id = ? AND age > 50 AND age <= 80',a.id) %>
+                    <% age5 = Respondent.joins(:answers).where('answers.id = ? AND age > 80 ',a.id) %>
+                    <% answersAge1["#{a.reply}"] = age1.count %>
+                    <% answersAge2["#{a.reply}"] = age2.count %>
+                    <% answersAge3["#{a.reply}"] = age3.count %>
+                    <% answersAge4["#{a.reply}"] = age4.count %>
+                    <% answersAge5["#{a.reply}"] = age5.count %>
                 <% end %>
                 <%= column_chart [
                     {name: "<18 lat", data: answersAge1 },
@@ -68,10 +68,10 @@
                 <% answersM = Hash.new %>
                 <% answersK = Hash.new %>
                 <% q.answers.each do |a| %>
-                    <% @@M = Respondent.joins(:answers).where('answers.id = ? AND sex = "M"',a.id) %>
-                    <% @@K = Respondent.joins(:answers).where('answers.id = ? AND sex = "K"',a.id) %>
-                    <% answersM["#{a.reply}"] = @@M.count %>
-                    <% answersK["#{a.reply}"] = @@K.count %>
+                    <% m = Respondent.joins(:answers).where('answers.id = ? AND sex = "M"',a.id) %>
+                    <% k = Respondent.joins(:answers).where('answers.id = ? AND sex = "K"',a.id) %>
+                    <% answersM["#{a.reply}"] = m.count %>
+                    <% answersK["#{a.reply}"] = k.count %>
                 <% end %>
                 <%= column_chart [
                     {name: "Mężczyźni", data: answersM },
@@ -90,16 +90,16 @@
                 <% answersWyk4 = Hash.new %>
                 <% answersWyk5 = Hash.new %>
                 <% q.answers.each do |a| %>
-                    <% @@Wyk1 = Respondent.joins(:answers).where('answers.id = ? AND education = "podstawowe" ',a.id) %>
-                    <% @@Wyk2 = Respondent.joins(:answers).where('answers.id = ? AND education = "gimnazjalne" ',a.id) %>
-                    <% @@Wyk3 = Respondent.joins(:answers).where('answers.id = ? AND education = "zawodowe" ',a.id) %>
-                    <% @@Wyk4 = Respondent.joins(:answers).where('answers.id = ? AND education = "średnie" ',a.id) %>
-                    <% @@Wyk5 = Respondent.joins(:answers).where('answers.id = ? AND education = "wyższe" ',a.id) %>
-                    <% answersWyk1["#{a.reply}"] = @@Wyk1.count %>
-                    <% answersWyk2["#{a.reply}"] = @@Wyk2.count %>
-                    <% answersWyk3["#{a.reply}"] = @@Wyk3.count %>
-                    <% answersWyk4["#{a.reply}"] = @@Wyk4.count %>
-                    <% answersWyk5["#{a.reply}"] = @@Wyk5.count %>
+                    <% wyk1 = Respondent.joins(:answers).where('answers.id = ? AND education = "podstawowe" ',a.id) %>
+                    <% wyk2 = Respondent.joins(:answers).where('answers.id = ? AND education = "gimnazjalne" ',a.id) %>
+                    <% wyk3 = Respondent.joins(:answers).where('answers.id = ? AND education = "zawodowe" ',a.id) %>
+                    <% wyk4 = Respondent.joins(:answers).where('answers.id = ? AND education = "średnie" ',a.id) %>
+                    <% wyk5 = Respondent.joins(:answers).where('answers.id = ? AND education = "wyższe" ',a.id) %>
+                    <% answersWyk1["#{a.reply}"] = wyk1.count %>
+                    <% answersWyk2["#{a.reply}"] = wyk2.count %>
+                    <% answersWyk3["#{a.reply}"] = wyk3.count %>
+                    <% answersWyk4["#{a.reply}"] = wyk4.count %>
+                    <% answersWyk5["#{a.reply}"] = wyk5.count %>
                 <% end %>
                 <%= column_chart [
                     {name: "podstawowe", data: answersWyk1 },
@@ -122,18 +122,18 @@
                 <% answersZam5 = Hash.new %>
                 <% answersZam6 = Hash.new %>
                 <% q.answers.each do |a| %>
-                    <% @@Zam1 = Respondent.joins(:answers).where('answers.id = ? AND location = "do 5 tyś. mieszkańców" ',a.id) %>
-                    <% @@Zam2 = Respondent.joins(:answers).where('answers.id = ? AND location = "5-20 tyś. mieszkańców" ',a.id) %>
-                    <% @@Zam3 = Respondent.joins(:answers).where('answers.id = ? AND location = "20-100 tyś. mieszkańców" ',a.id) %>
-                    <% @@Zam4 = Respondent.joins(:answers).where('answers.id = ? AND location = "100-200 tyś. mieszkańców" ',a.id) %>
-                    <% @@Zam5 = Respondent.joins(:answers).where('answers.id = ? AND location = "200-500 tyś. mieszkańców" ',a.id) %>
-                    <% @@Zam6 = Respondent.joins(:answers).where('answers.id = ? AND location = "powyżej 500 tyś. mieszkańców" ',a.id) %>
-                    <% answersZam1["#{a.reply}"] = @@Zam1.count %>
-                    <% answersZam2["#{a.reply}"] = @@Zam2.count %>
-                    <% answersZam3["#{a.reply}"] = @@Zam3.count %>
-                    <% answersZam4["#{a.reply}"] = @@Zam4.count %>
-                    <% answersZam5["#{a.reply}"] = @@Zam5.count %>
-                    <% answersZam5["#{a.reply}"] = @@Zam6.count %>
+                    <% zam1 = Respondent.joins(:answers).where('answers.id = ? AND location = "do 5 tyś. mieszkańców" ',a.id) %>
+                    <% zam2 = Respondent.joins(:answers).where('answers.id = ? AND location = "5-20 tyś. mieszkańców" ',a.id) %>
+                    <% zam3 = Respondent.joins(:answers).where('answers.id = ? AND location = "20-100 tyś. mieszkańców" ',a.id) %>
+                    <% zam4 = Respondent.joins(:answers).where('answers.id = ? AND location = "100-200 tyś. mieszkańców" ',a.id) %>
+                    <% zam5 = Respondent.joins(:answers).where('answers.id = ? AND location = "200-500 tyś. mieszkańców" ',a.id) %>
+                    <% zam6 = Respondent.joins(:answers).where('answers.id = ? AND location = "powyżej 500 tyś. mieszkańców" ',a.id) %>
+                    <% answersZam1["#{a.reply}"] = zam1.count %>
+                    <% answersZam2["#{a.reply}"] = zam2.count %>
+                    <% answersZam3["#{a.reply}"] = zam3.count %>
+                    <% answersZam4["#{a.reply}"] = zam4.count %>
+                    <% answersZam5["#{a.reply}"] = zam5.count %>
+                    <% answersZam5["#{a.reply}"] = zam6.count %>
                 <% end %>
                 <%= column_chart [
                     {name: "do 5 tyś. m.", data: answersZam1 },
