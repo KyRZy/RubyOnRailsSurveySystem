@@ -22,7 +22,7 @@
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane fade in active" id="default<%= counter %>">
         <div>
-            <h3>Ogólny rezultat</h3>
+            <h3 class="text-center">Ogólny rezultat</h3>
             <% answers = Hash.new %>
             <% q.answers.each do |a| %>
                 <% answers["#{a.reply}"] = AnswerRespondent.where(answer_id:a.id).count %>
@@ -32,7 +32,7 @@
     </div>
     <div role="tabpanel" class="tab-pane fade" id="age<%= counter %>">
         <div>
-            <h3>Wyniki pogrupowane względem wieku</h3>
+            <h3 class="text-center">Wyniki pogrupowane względem wieku</h3>
             <% answersAge1 = Hash.new %>
             <% answersAge2 = Hash.new %>
             <% answersAge3 = Hash.new %>
@@ -51,17 +51,17 @@
                 <% answersAge5["#{a.reply}"] = @@age5.count %>
             <% end %>
             <%= column_chart [
-                {name: "<18", data: answersAge1 },
-                {name: "19-30", data: answersAge2 },
-                {name: "31-50", data: answersAge3 },
-                {name: "51-80", data: answersAge4 },
-                {name: ">80", data: answersAge5 },
+                {name: "<18 lat", data: answersAge1 },
+                {name: "19-30 lat", data: answersAge2 },
+                {name: "31-50 lat", data: answersAge3 },
+                {name: "51-80 lat", data: answersAge4 },
+                {name: ">80 lat", data: answersAge5 },
             ] %>
         </div>
     </div>
     <div role="tabpanel" class="tab-pane fade" id="sex<%= counter %>">
         <div>
-            <h3>Wyniki pogrupowane względem płci</h3>
+            <h3 class="text-center">Wyniki pogrupowane względem płci</h3>
             <% answersM = Hash.new %>
             <% answersK = Hash.new %>
             <% q.answers.each do |a| %>
@@ -78,7 +78,7 @@
     </div>
     <div role="tabpanel" class="tab-pane fade" id="education<%= counter %>">
         <div>
-            <h3>Wyniki pogrupowane względem miejsca Wykieszkania</h3>
+            <h3 class="text-center">Wyniki pogrupowane względem wykształcenia</h3>
             <% answersWyk1 = Hash.new %>
             <% answersWyk2 = Hash.new %>
             <% answersWyk3 = Hash.new %>
@@ -107,7 +107,7 @@
     </div>
     <div role="tabpanel" class="tab-pane fade" id="location<%= counter %>">
         <div>
-            <h3>Wyniki pogrupowane względem Zamształcenia</h3>
+            <h3 class="text-center">Wyniki pogrupowane względem miejsca zamieszkania</h3>
             <% answersZam1 = Hash.new %>
             <% answersZam2 = Hash.new %>
             <% answersZam3 = Hash.new %>
@@ -129,17 +129,17 @@
                 <% answersZam5["#{a.reply}"] = @@Zam6.count %>
             <% end %>
             <%= column_chart [
-                {name: "do 5 tyś. mieszkańców", data: answersZam1 },
-                {name: "5-20 tyś. mieszkańców", data: answersZam2 },
-                {name: "20-100 tyś. mieszkańców", data: answersZam3 },
-                {name: "100-200 tyś. mieszkańców", data: answersZam4 },
-                {name: "200-500 tyś. mieszkańców", data: answersZam5 },
-                {name: "powyżej 500 tyś. mieszkańców", data: answersZam6 }
+                {name: "do 5 tyś. m.", data: answersZam1 },
+                {name: "5-20 tyś. m.", data: answersZam2 },
+                {name: "20-100 tyś. m.", data: answersZam3 },
+                {name: "100-200 tyś. m.", data: answersZam4 },
+                {name: "200-500 tyś. m.", data: answersZam5 },
+                {name: "powyżej 500 tyś. m.", data: answersZam6 }
             ] %>
         </div>
     </div>
+  </div>
 </div>
-
 <% end %>
-
 </div>
+
