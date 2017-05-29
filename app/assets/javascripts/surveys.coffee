@@ -168,8 +168,19 @@ $(document).on "turbolinks:load", ->
         if element.children().is("span") # jeśli komunikat błędu jest dopisany
             element.children().fadeOut(100, -> element.children().remove()) # komunikat błędu zostaje usunięty
     
-     $('a[data-toggle="tab"]').on 'shown.bs.tab',  ->
+     delay = ->
+        timer = 0;
+        return (callback, ms) ->
+            clearTimeout (timer);
+            timer = setTimeout(callback, ms);
+
+     resize = () ->
         ev = document.createEvent('Event');
         ev.initEvent('resize', true, true);
         window.dispatchEvent(ev);
         
+     $('a[data-toggle="tab"]').on 'shown.bs.tab', resize
+     $(window).resize( ->
+        delay( ->
+        resize , 500)
+     )
