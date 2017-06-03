@@ -21,10 +21,6 @@
     -o-transform: scale(1.5 , 1.5); 
 }
 
-@mixin legend-li-color($width,$color){
-    border-left: $width solid $color;
-}
-
 .container{
     margin-bottom: 50px;
 }
@@ -145,23 +141,25 @@ ul.legend{
     li{
         margin: 0 0 3px 0;
         padding: 0 0 0 15px;
+        border-left-width: 40px;
+        border-left-style: solid;
     }
 }
 .legend-blue{
-    @include legend-li-color(40px,#3366cc);
+    border-left-color: #3366cc;
 }
 .legend-red{
-    @include legend-li-color(40px,#dc3912);
+    border-left-color: #dc3912;
 }
 .legend-yellow{
-    @include legend-li-color(40px,#ff9900);
+    border-left-color: #ff9900;
 }
 .legend-green{
-    @include legend-li-color(40px,#109618);
+    border-left-color: #109618;
 }
 .legend-purple{
-    @include legend-li-color(40px,#990099);
+    border-left-color: #990099;
 }
 .legend-cyan{
-    @include legend-li-color(40px,#0099c6);
+    border-left-color: #0099c6;
 }
