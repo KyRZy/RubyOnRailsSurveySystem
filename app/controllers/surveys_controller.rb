@@ -1,9 +1,10 @@
 class SurveysController < ApplicationController
-  before_action :set_survey, only: [:show, :edit, :update, :destroy, :stats, :is_survey_creator?, :is_opened?]
+  before_action :set_survey, only: [:show, :edit, :update, :destroy, :stats, :is_survey_creator?, :is_opened?, :is_available?]
 	before_action :already_filled_this_survey?, only: [:show]
 	before_action :is_survey_author?, only: [:show]
 	before_action :is_opened?, only: [:show]
 	before_action :is_logged?, only: [:new]
+	before_action :is_available?, only: [:stats]
 
   # GET /surveys
   # GET /surveys.json
@@ -93,8 +94,8 @@ class SurveysController < ApplicationController
 			@survey.questions = @questions
 		respond_to do |format|
 		  if @survey.save
-			format.html { redirect_to @survey }
-			format.json { render :show, status: :created, location: @survey }
+			format.html { redirect_to root_path }
+			format.json { redirect_to root_path }
 			flash[:success] = 'Poprawnie utworzono ankietę.'
 		  else
 			raise ActiveRecord::Rollback
@@ -149,10 +150,30 @@ class SurveysController < ApplicationController
 		end
 		
 		def is_opened?
-			if (Time.now <=> @survey.start_date) == 1 && (Time.now <=> @survey.end_date) == -1
-				@is_opened = true
+			if (Time.now <=> @survey.start_date) == -1 || (Time.now <=> @survey.end_date) == 1
+				flash[:danger] = "Ankieta nie jest w tej chwili dostępna."
+				redirect_to root_path
+			end
+		end
+
+		def is_available?
+			if @survey.is_available_for_all || (current_administrator != nil && current_administrator.id == @survey.administrator_id)
+				return
 			else
-				@is_opened = false
+				respondent_has_access = false
+				if @survey.is_public
+					answer_respondents = AnswerRespondent.where(answer_id:@survey.questions.first.answers).each do |ar|
+						if Respondent.exists?(ar.respondent_id)
+							if Respondent.find(ar.respondent_id).ip_address == request.remote_ip
+								respondent_has_access = true
+							end
+						end
+					end
+				end
+				if !respondent_has_access
+					flash[:danger] = "Nie masz dostępu do wyników ankiety"
+					redirect_to root_path
+				end
 			end
 		end
 

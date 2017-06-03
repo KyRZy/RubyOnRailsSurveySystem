@@ -1,86 +1,77 @@
-<% if(!@is_opened) %>
-    <div class="alert alert-info" role="alert">
-      <button type="button" class="close">&times;</button>
-      Ankieta nie jest w tej chwili dostępna.
-    </div>
-<% else %>
-	  
-	<% if(@is_survey_author) %>
-		<div class="alert alert-info" role="alert">
-		  <button type="button" class="close">&times;</button>
-		  Jako autor ankiety nie możesz wziąć w niej udziału
-		</div>
-	  <% end  %>
-	<% provide(:title, "Wypełnianie ankiety") %>
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-offset-1 col-lg-10 col-lg-offset-1">
-	  <div class="row">
-		<h1 id="survey-title" class="text-center">
-		  <%= @survey.name %> <%= @is_creator%>
-		</h1>
-	  </div>
-	  <%= form_tag fill_survey_path, :id => "survey-form" do %>
-		<% if @survey.is_age_required || @survey.is_sex_required || @survey.is_education_required || @survey.is_location_required %>
-		  <div id="respondent-info-form" class="panel panel-default">
-			<h1 class="text-center">Dane wymagane od ankietowanego:</h1>
-			<% if @survey.is_age_required %>
-			  <div>
-				<h2>Wiek:</h2>
-				<%= number_field_tag("respondent[age]", nil, in: 1...100, class: "form-control respondent-age-input") %>
-			  </div>
-			  <% end %>
-				<% if @survey.is_sex_required %>
-				  <div class="respondent-sex">
-					<h2>Płeć:</h2>
-					<div class="radio">
-					  <h3><label><%= radio_button_tag("respondent[sex]", 'K') %>Kobieta</label></h3>
-					</div>
-					<div class="radio">
-					  <h3><label><%= radio_button_tag("respondent[sex]", 'M') %>Mężczyzna</label></h3>
-					</div>
-				  </div>
-				<% end %>
-				<% if @survey.is_education_required %>
-				  <div>
-					<h2>Wykształcenie:</h2>
-					<%= select("respondent", "education", ["podstawowe","gimnazjalne","zawodowe","średnie","wyższe"],{},{class: "form-control respondent-education-input"}) %>
-				  </div>
-				<% end %>
-				<% if @survey.is_location_required %>
-				  <div>
-					<h2>Miejsce zamieszkania:</h2>
-					<%= select("respondent", "location", ["do 5 tyś. mieszkańców","5-20 tyś. mieszkańców","20-100 tyś. mieszkańców","100-200 tyś. mieszkańców","200-500 tyś. mieszkańców","powyżej 500 tyś. mieszkańców"],{},{class: "form-control respondent-location-input"}) %>
-				  </div>
-				<% end %>
+<% if(@is_survey_author) %>
+	<div class="alert alert-info" role="alert">
+	  <button type="button" class="close">&times;</button>
+	  Jako autor ankiety nie możesz wziąć w niej udziału
+	</div>
+  <% end %>
+<% provide(:title, "Wypełnianie ankiety") %>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-offset-1 col-lg-10 col-lg-offset-1">
+  <div class="row">
+	<h1 id="survey-title" class="text-center">
+	  <%= @survey.name %> <%= @is_creator%>
+	</h1>
+  </div>
+  <%= form_tag fill_survey_path, :id => "survey-form" do %>
+	<% if @survey.is_age_required || @survey.is_sex_required || @survey.is_education_required || @survey.is_location_required %>
+	  <div id="respondent-info-form" class="panel panel-default">
+		<h1 class="text-center">Dane wymagane od ankietowanego:</h1>
+		<% if @survey.is_age_required %>
+		  <div>
+			<h2>Wiek:</h2>
+			<%= number_field_tag("respondent[age]", nil, in: 1...100, class: "form-control respondent-age-input") %>
 		  </div>
 		  <% end %>
-		  <div id="survey" class="panel panel-default">
-			<% counter = 0 %>
-			<% @survey.questions.each do |q| %>
-			<div class="question">
-			  <h2><%="#{counter+=1}. #{q.content}" %></h2>
-			  <div class="answers">
-			  <% q.answers.each do |a| %>
-				<% if q.question_type == "JEDNOKROTNEGO_WYBORU" %>
-				<div class="answer radio">
-				  <h3><label><%= radio_button_tag "question[#{q.id}][]", a.id %><%= a.reply %></label></h3>
+			<% if @survey.is_sex_required %>
+			  <div class="respondent-sex">
+				<h2>Płeć:</h2>
+				<div class="radio">
+				  <h3><label><%= radio_button_tag("respondent[sex]", 'K') %>Kobieta</label></h3>
 				</div>
-				<% elsif q.question_type == "WIELOKROTNEGO_WYBORU"%>
-				<div class="answer checkbox">
-				  <h3><label><%= check_box_tag "question[#{q.id}][]", a.id %><%= a.reply %></label></h3>
+				<div class="radio">
+				  <h3><label><%= radio_button_tag("respondent[sex]", 'M') %>Mężczyzna</label></h3>
 				</div>
-				<% end %>
-			  <% end %>
-			  </div>
 			  </div>
 			<% end %>
-			<% if(@is_survey_author) %>
-			  <%= submit_tag("Brak możliwości wysłania ankiety przez autora", disabled: true, class: "btn btn-primary btn-lg") %>
-			<% else %>
-			  <%= submit_tag("Wyślij", class: "btn btn-primary btn-lg") %>
+			<% if @survey.is_education_required %>
+			  <div>
+				<h2>Wykształcenie:</h2>
+				<%= select("respondent", "education", ["podstawowe","gimnazjalne","zawodowe","średnie","wyższe"],{},{class: "form-control respondent-education-input"}) %>
+			  </div>
 			<% end %>
-			</div>
-	  <% end %>
+			<% if @survey.is_location_required %>
+			  <div>
+				<h2>Miejsce zamieszkania:</h2>
+				<%= select("respondent", "location", ["do 5 tyś. mieszkańców","5-20 tyś. mieszkańców","20-100 tyś. mieszkańców","100-200 tyś. mieszkańców","200-500 tyś. mieszkańców","powyżej 500 tyś. mieszkańców"],{},{class: "form-control respondent-location-input"}) %>
+			  </div>
+			<% end %>
 	  </div>
-	</div>
-<% end %>
-
+	  <% end %>
+	  <div id="survey" class="panel panel-default">
+		<% counter = 0 %>
+		<% @survey.questions.each do |q| %>
+		<div class="question">
+		  <h2><%="#{counter+=1}. #{q.content}" %></h2>
+		  <div class="answers">
+		  <% q.answers.each do |a| %>
+			<% if q.question_type == "JEDNOKROTNEGO_WYBORU" %>
+			<div class="answer radio">
+			  <h3><label><%= radio_button_tag "question[#{q.id}][]", a.id %><%= a.reply %></label></h3>
+			</div>
+			<% elsif q.question_type == "WIELOKROTNEGO_WYBORU"%>
+			<div class="answer checkbox">
+			  <h3><label><%= check_box_tag "question[#{q.id}][]", a.id %><%= a.reply %></label></h3>
+			</div>
+			<% end %>
+		  <% end %>
+		  </div>
+		  </div>
+		<% end %>
+		<% if(@is_survey_author) %>
+		  <%= submit_tag("Brak możliwości wysłania ankiety przez autora", disabled: true, class: "btn btn-primary btn-lg") %>
+		<% else %>
+		  <%= submit_tag("Wyślij", class: "btn btn-primary btn-lg") %>
+		<% end %>
+		</div>
+  <% end %>
+  </div>
+</div>

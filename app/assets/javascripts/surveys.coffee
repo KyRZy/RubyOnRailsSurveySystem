@@ -77,7 +77,7 @@ $(document).on "turbolinks:load", ->
         startDate = new Date startDateString
         endDate = new Date endDateString
 
-        if startDate > endDate
+        if startDate >= endDate
             alertIsAlreadyShown = false
 
             $("div[role=alert]").each ->
