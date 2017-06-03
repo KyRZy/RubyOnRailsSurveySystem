@@ -21,7 +21,7 @@
   </ul>
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane fade in active" id="default<%= counter %>">
-        <div>
+        <div class="tab-container">
             <h3 class="text-center">Ogólny rezultat</h3>
             <% answers = Hash.new %>
             <% q.answers.each do |a| %>
@@ -32,8 +32,15 @@
     </div>
     <% if @survey.is_age_required %>
         <div role="tabpanel" class="tab-pane fade" id="age<%= counter %>">
-            <div>
+            <div class="tab-container">
                 <h3 class="text-center">Wyniki pogrupowane względem wieku</h3>
+                <ul class="legend">
+                    <li class="legend-blue"><18 lat</li>
+                    <li class="legend-red">19-30 lat</li>
+                    <li class="legend-yellow">31-50 lat</li>
+                    <li class="legend-green">51-80 lat</li>
+                    <li class="legend-purple">>80 lat</li>
+                </ul>
                 <% answersAge1 = Hash.new %>
                 <% answersAge2 = Hash.new %>
                 <% answersAge3 = Hash.new %>
@@ -57,14 +64,18 @@
                     {name: "31-50 lat", data: answersAge3 },
                     {name: "51-80 lat", data: answersAge4 },
                     {name: ">80 lat", data: answersAge5 },
-                ] %>
+                ], library: {legend:{position:'none'}} %>
             </div>
         </div>
     <% end %>
     <% if @survey.is_sex_required %>
         <div role="tabpanel" class="tab-pane fade" id="sex<%= counter %>">
-            <div>
+            <div class="tab-container">
                 <h3 class="text-center">Wyniki pogrupowane względem płci</h3>
+                <ul class="legend">
+                    <li class="legend-blue">Mężczyźni</li>
+                    <li class="legend-red">Kobiety</li>
+                </ul>
                 <% answersM = Hash.new %>
                 <% answersK = Hash.new %>
                 <% q.answers.each do |a| %>
@@ -76,14 +87,21 @@
                 <%= column_chart [
                     {name: "Mężczyźni", data: answersM },
                     {name: "Kobiety", data: answersK }
-                ] %>
+                ], library: {legend:{position:'none'}} %>
             </div>
         </div>
     <% end %>
     <% if @survey.is_education_required %>
         <div role="tabpanel" class="tab-pane fade" id="education<%= counter %>">
-            <div>
+            <div class="tab-container">
                 <h3 class="text-center">Wyniki pogrupowane względem wykształcenia</h3>
+                <ul class="legend">
+                    <li class="legend-blue">podstawowe</li>
+                    <li class="legend-red">gimnazjalne</li>
+                    <li class="legend-yellow">zawodowe</li>
+                    <li class="legend-green">średnie</li>
+                    <li class="legend-purple">wyższe</li>
+                </ul>
                 <% answersWyk1 = Hash.new %>
                 <% answersWyk2 = Hash.new %>
                 <% answersWyk3 = Hash.new %>
@@ -107,14 +125,22 @@
                     {name: "zawodowe", data: answersWyk3 },
                     {name: "średnie", data: answersWyk4 },
                     {name: "wyższe", data: answersWyk5 },
-                ] %>
+                ], library: {legend:{position:'none'}} %>
             </div>
         </div>
     <% end %>
     <% if @survey.is_location_required %>
         <div role="tabpanel" class="tab-pane fade" id="location<%= counter %>">
-            <div>
+            <div class="tab-container">
                 <h3 class="text-center">Wyniki pogrupowane względem miejsca zamieszkania</h3>
+                <ul class="legend">
+                    <li class="legend-blue">do 5 tyś. mieszkańców</li>
+                    <li class="legend-red">5-20 tyś. mieszkańców</li>
+                    <li class="legend-yellow">20-100 tyś. mieszkańców</li>
+                    <li class="legend-green">100-200 tyś. mieszkańców</li>
+                    <li class="legend-purple">200-500 tyś. mieszkańców</li>
+                    <li class="legend-cyan">powyżej 500 tyś. mieszkańców</li>
+                </ul>
                 <% answersZam1 = Hash.new %>
                 <% answersZam2 = Hash.new %>
                 <% answersZam3 = Hash.new %>
@@ -136,13 +162,13 @@
                     <% answersZam5["#{a.reply}"] = zam6.count %>
                 <% end %>
                 <%= column_chart [
-                    {name: "do 5 tyś. m.", data: answersZam1 },
-                    {name: "5-20 tyś. m.", data: answersZam2 },
-                    {name: "20-100 tyś. m.", data: answersZam3 },
-                    {name: "100-200 tyś. m.", data: answersZam4 },
-                    {name: "200-500 tyś. m.", data: answersZam5 },
-                    {name: "powyżej 500 tyś. m.", data: answersZam6 }
-                ] %>
+                    {name: "do 5 tyś. mieszkańców", data: answersZam1 },
+                    {name: "5-20 tyś. mieszkańców", data: answersZam2 },
+                    {name: "20-100 tyś. mieszkańców", data: answersZam3 },
+                    {name: "100-200 tyś. mieszkańców", data: answersZam4 },
+                    {name: "200-500 tyś. mieszkańców", data: answersZam5 },
+                    {name: "powyżej 500 tyś. mieszkańców", data: answersZam6 }
+                ], library: {legend:{position:'none'}} %>
             </div>
         </div>
     <% end %>
