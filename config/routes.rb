@@ -1,16 +1,10 @@
 Rails.application.routes.draw do
-  resources :answer_respondents
-  resources :respondents
-  resources :answers
-  resources :questions
-  resources :surveys do
+  resources :surveys, :path => 'ankieta', :except => [:edit, :update] do
     member do
-		get 'stats'
+		get 'stats', :path => 'wyniki'
 	end
   end
-  resources :categories
-  devise_for :administrators
-  get 'static_pages/home'
+  devise_for :administrators, :path => 'uzytkownik'
   get 'static_pages/help'
   post 'fill_survey' => 'surveys#fill', controller: 'surveys'
   root 'surveys#index'

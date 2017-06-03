@@ -30,7 +30,7 @@
 					<td><%= (survey.is_available_for_all)?"prawda":"fałsz" %></td>
 					-->
 				<td><%= Category.find(survey.category_id).name %></td>
-				<td><%= link_to 'Wypełnij', survey, action: :show %></td>
+				<td><%= link_to 'Przeglądnij', survey, action: :show %></td>
 				<td><%= link_to 'Usuń', survey, method: :delete, data: { confirm: 'Czy jesteś pewien?' } %></td>
 			  </tr>
 			<% end %>
