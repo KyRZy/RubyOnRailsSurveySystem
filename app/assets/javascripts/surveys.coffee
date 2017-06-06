@@ -62,7 +62,7 @@ $(document).on "turbolinks:load", ->
         $("#survey_is_available_for_all").prop('checked', false) # odznaczony zostaje także checkbox pozwalający WSZYSTKIM na dostęp do wyników ankiety
 
     $("form#survey-generator-form").on "submit",  -> # walidacja formularza po naciśnięciu przycisku
-        submit = false
+        submit = true
         validation = true # formularz wstępnie zostaje oceniony jako poprawnie uzupełniony
         
         questionValidation = true
