@@ -68,7 +68,7 @@ $(document).on "turbolinks:load", ->
         questionValidation = true
         questionValuesArray = []
         $(".question input[type=text]").each( ->
-            if $(this).val() in questionValuesArray
+            if $(this).val() in questionValuesArray && $(this).val() != ""
                 questionValidation = false
                 $(this).parent().addClass("has-error") # puste pole zostaje oznaczone czerwonym kolorem
                 $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
@@ -95,7 +95,7 @@ $(document).on "turbolinks:load", ->
         $(".answers").each( ->
             answerValuesArray = []
             $(this).find("input[type=text]").each( ->
-                if $(this).val() in answerValuesArray
+                if $(this).val() in answerValuesArray && $(this).val() != ""
                     answerValidation = false
                     $(this).parent().addClass("has-error") # puste pole zostaje oznaczone czerwonym kolorem
                     $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
