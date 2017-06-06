@@ -62,8 +62,63 @@ $(document).on "turbolinks:load", ->
         $("#survey_is_available_for_all").prop('checked', false) # odznaczony zostaje także checkbox pozwalający WSZYSTKIM na dostęp do wyników ankiety
 
     $("form#survey-generator-form").on "submit",  -> # walidacja formularza po naciśnięciu przycisku
-        submit = true
+        submit = false
         validation = true # formularz wstępnie zostaje oceniony jako poprawnie uzupełniony
+        
+        questionValidation = true
+        questionValuesArray = []
+        $(".question input[type=text]").each( ->
+            if $(this).val() in questionValuesArray
+                questionValidation = false
+                $(this).parent().addClass("has-error") # puste pole zostaje oznaczone czerwonym kolorem
+                $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
+            else
+                questionValuesArray.push $(this).val()
+        )
+            
+        if !questionValidation
+            alertIsAlreadyShown = false
+
+            $("div[role=alert]").each ->
+                if $(this).data('errortype') == "question"
+                    alertIsAlreadyShown = true   
+
+            if !alertIsAlreadyShown
+                $("form#survey-generator-form").before('<div class="alert alert-danger" role="alert" data-errortype="question">
+                                                            <button type="button" class="close">&times;</button>
+                                                            <strong>Błąd!</strong> Któreś z pytań zostało wprowadzone więcej niż jeden raz.
+                                                        </div>')
+            $("html, body").animate({ scrollTop: 0 }, 200); # zescrollowanie do początku strony
+            submit = false
+
+        answerValidation = true
+        $(".answers").each( ->
+            answerValuesArray = []
+            $(this).find("input[type=text]").each( ->
+                if $(this).val() in answerValuesArray
+                    answerValidation = false
+                    $(this).parent().addClass("has-error") # puste pole zostaje oznaczone czerwonym kolorem
+                    $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
+                else
+                    answerValuesArray.push $(this).val()
+            )
+        )
+
+        if !answerValidation
+            alertIsAlreadyShown = false
+
+            $("div[role=alert]").each ->
+                if $(this).data('errortype') == "answer"
+                    alertIsAlreadyShown = true   
+
+            if !alertIsAlreadyShown
+                $("form#survey-generator-form").before('<div class="alert alert-danger" role="alert" data-errortype="answer">
+                                                            <button type="button" class="close">&times;</button>
+                                                            <strong>Błąd!</strong> Któraś z odpowiedzi została wprowadzona więcej niż jeden raz w pytaniu.
+                                                        </div>')
+            $("html, body").animate({ scrollTop: 0 }, 200); # zescrollowanie do początku strony
+            submit = false
+
         $("input[type=text]").each( -> # dla każdego pola tekstowego
             if $(this).val() == "" && !$(this).hasClass("pressForNewAnswer") && !$(this).parents().eq(3).is("#new_question") # jeśli jest puste i nie jest ani polem do dodawania odpowiedzi ani schowanym pytaniem
                 validation = false # formularz zostaje oceniony jako błędnie uzupełniony
@@ -71,13 +126,17 @@ $(document).on "turbolinks:load", ->
                 if $(this).next().hasClass("input-group-btn") # jeśli dane pole miało przycisk usuwania
                     $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
         ) 
+
         startDateString = $("#survey_start_date").datepicker('getDate')
         endDateString = $("#survey_end_date").datepicker('getDate')
 
+        console.log startDateString
+
         startDate = new Date startDateString
         endDate = new Date endDateString
+        defaultDate = new Date null
 
-        if startDate >= endDate
+        if defaultDate.getTime() != startDate.getTime() && defaultDate.getTime() != endDate.getTime() && startDate >= endDate
             alertIsAlreadyShown = false
 
             $("div[role=alert]").each ->
