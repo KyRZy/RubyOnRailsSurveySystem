@@ -20,8 +20,8 @@
 			<% @surveys.where(:administrator_id => current_administrator.id).each do |survey| %>
 			  <tr>
 				<td><%= survey.name %></td>
-				<td><%= survey.start_date.strftime('%d-%m-%Y %H:%M') %></td>
-				<td><%= survey.end_date.strftime('%d-%m-%Y %H:%M') %></td>
+				<td><%= survey.start_date.strftime('%d-%m-%Y') %></td>
+				<td><%= survey.end_date.strftime('%d-%m-%Y') %></td>
 				<% if(survey.is_available_for_all) %>
 					<td><%= link_to 'dla WSZYSTKICH', stats_survey_path(survey.id) %></td>
 				<% elsif(survey.is_public) %>
@@ -59,8 +59,8 @@
 			<% @surveys.last(5).reverse.each do |survey| %>
 			  <tr>
 				<td><%= survey.name %></td>
-				<td><%= survey.start_date.strftime('%d-%m-%Y %H:%M') %></td>
-				<td><%= survey.end_date.strftime('%d-%m-%Y %H:%M') %></td>
+				<td><%= survey.start_date.strftime('%d-%m-%Y') %></td>
+				<td><%= survey.end_date.strftime('%d-%m-%Y') %></td>
 				<% if(survey.is_available_for_all) %>
 					<td><%= link_to 'dla WSZYSTKICH', stats_survey_path(survey.id) %></td>
 				<% elsif(survey.is_public) %>
@@ -119,8 +119,8 @@
 									<% @surveys.where(category_id: c.id).each do |survey| %>
 										<tr>
 										<td><%= survey.name %></td>
-										<td><%= survey.start_date.strftime('%d-%m-%Y %H:%M') %></td>
-										<td><%= survey.end_date.strftime('%d-%m-%Y %H:%M') %></td>
+										<td><%= survey.start_date.strftime('%d-%m-%Y') %></td>
+										<td><%= survey.end_date.strftime('%d-%m-%Y') %></td>
 										<% if(survey.is_available_for_all) %>
 											<td><%= link_to 'dla WSZYSTKICH', stats_survey_path(survey.id) %></td>
 										<% elsif(survey.is_public) %>
