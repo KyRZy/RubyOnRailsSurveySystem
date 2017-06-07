@@ -62,18 +62,41 @@ $(document).on "turbolinks:load", ->
         $("#survey_is_available_for_all").prop('checked', false) # odznaczony zostaje także checkbox pozwalający WSZYSTKIM na dostęp do wyników ankiety
 
     $("form#survey-generator-form").on "submit",  -> # walidacja formularza po naciśnięciu przycisku
-        submit = true
+        submit = false
         validation = true # formularz wstępnie zostaje oceniony jako poprawnie uzupełniony
         
+        $("input[type=text]").each( ->
+            if $(this).parent().hasClass("has-error") # jeśli kliknięte pole było zaznaczone jako błędne
+                $(this).parent().removeClass("has-error") # usunięcie błędu
+            if $(this).next().hasClass("input-group-btn") # jeśli dane pole miało przycisk usuwania
+                $(this).next().children().addClass("btn-default").removeClass("btn-danger") # podmiana przycisku z błędem na domyślny przycisk
+        )
+
+        $("#survey_name, #survey_start_date, #survey_end_date").each( ->
+            if $(this).val() == ""
+                validation = false # formularz zostaje oceniony jako błędnie uzupełniony
+                hasError = true
+            if hasError
+                $(this).parent().addClass("has-error") # puste pole zostaje oznaczone czerwonym kolorem
+                $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
+        )
+
         questionValidation = true
         questionValuesArray = []
         $(".question input[type=text]").each( ->
-            if $(this).val() in questionValuesArray && $(this).val() != ""
+            hasError = false
+            if $(this).val() == ""
+                validation = false # formularz zostaje oceniony jako błędnie uzupełniony
+                hasError = true
+            else if $(this).val() in questionValuesArray
                 questionValidation = false
-                $(this).parent().addClass("has-error") # puste pole zostaje oznaczone czerwonym kolorem
-                $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
+                hasError = true
             else
                 questionValuesArray.push $(this).val()
+
+            if hasError
+                $(this).parent().addClass("has-error") # puste pole zostaje oznaczone czerwonym kolorem
+                $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
         )
             
         if !questionValidation
@@ -95,12 +118,19 @@ $(document).on "turbolinks:load", ->
         $(".answers").each( ->
             answerValuesArray = []
             $(this).find("input[type=text]").each( ->
-                if $(this).val() in answerValuesArray && $(this).val() != ""
+                hasError = false
+                if $(this).val() == "" && !$(this).hasClass("pressForNewAnswer")
+                    validation = false # formularz zostaje oceniony jako błędnie uzupełniony
+                    hasError = true
+                else if $(this).val() in answerValuesArray
                     answerValidation = false
-                    $(this).parent().addClass("has-error") # puste pole zostaje oznaczone czerwonym kolorem
-                    $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
+                    hasError = true
                 else
                     answerValuesArray.push $(this).val()
+
+                if hasError
+                    $(this).parent().addClass("has-error") # puste pole zostaje oznaczone czerwonym kolorem
+                    $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
             )
         )
 
@@ -119,18 +149,8 @@ $(document).on "turbolinks:load", ->
             $("html, body").animate({ scrollTop: 0 }, 200); # zescrollowanie do początku strony
             submit = false
 
-        $("input[type=text]").each( -> # dla każdego pola tekstowego
-            if $(this).val() == "" && !$(this).hasClass("pressForNewAnswer") && !$(this).parents().eq(3).is("#new_question") # jeśli jest puste i nie jest ani polem do dodawania odpowiedzi ani schowanym pytaniem
-                validation = false # formularz zostaje oceniony jako błędnie uzupełniony
-                $(this).parent().addClass("has-error") # puste pole zostaje oznaczone czerwonym kolorem
-                if $(this).next().hasClass("input-group-btn") # jeśli dane pole miało przycisk usuwania
-                    $(this).next().children().removeClass("btn-default").addClass("btn-danger") # podmiana domyślnego przycisku na przycisk z błędem
-        ) 
-
         startDateString = $("#survey_start_date").datepicker('getDate')
         endDateString = $("#survey_end_date").datepicker('getDate')
-
-        console.log startDateString
 
         startDate = new Date startDateString
         endDate = new Date endDateString
