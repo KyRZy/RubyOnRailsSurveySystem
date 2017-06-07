@@ -62,17 +62,18 @@ $(document).on "turbolinks:load", ->
         $("#survey_is_available_for_all").prop('checked', false) # odznaczony zostaje także checkbox pozwalający WSZYSTKIM na dostęp do wyników ankiety
 
     $("form#survey-generator-form").on "submit",  -> # walidacja formularza po naciśnięciu przycisku
-        submit = true
+        submit = true # wstępne pozwolenie na wysłanie formularza do serwera
         validation = true # formularz wstępnie zostaje oceniony jako poprawnie uzupełniony
         
-        $("input[type=text]").each( ->
-            if $(this).parent().hasClass("has-error") # jeśli kliknięte pole było zaznaczone jako błędne
+        $("input[type=text]").each( -> # usunięcie wszystkich błędów dla pól tekstowych
+            if $(this).parent().hasClass("has-error") # jeśli pole było zaznaczone jako błędne
                 $(this).parent().removeClass("has-error") # usunięcie błędu
             if $(this).next().hasClass("input-group-btn") # jeśli dane pole miało przycisk usuwania
                 $(this).next().children().addClass("btn-default").removeClass("btn-danger") # podmiana przycisku z błędem na domyślny przycisk
         )
 
-        $("#survey_name, #survey_start_date, #survey_end_date").each( ->
+        $("#survey_name, #survey_start_date, #survey_end_date").each( -> # sprawdzenie czy pola na nazwę ankiety, datę początku i końca ankiety zostały uzupełnione
+            hasError = false
             if $(this).val() == ""
                 validation = false # formularz zostaje oceniony jako błędnie uzupełniony
                 hasError = true
@@ -83,7 +84,7 @@ $(document).on "turbolinks:load", ->
 
         questionValidation = true
         questionValuesArray = []
-        $(".question input[type=text]").each( ->
+        $(".question input[type=text]").each( -> # sprawdzenie czy któreś z pytań nie zostało wpisane więcej niż jeden raz
             hasError = false
             if $(this).val() == ""
                 validation = false # formularz zostaje oceniony jako błędnie uzupełniony
