@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :surveys, :path => 'ankieta', :except => [:edit, :update] do
+  resources :surveys, :path => 'ankieta', path_names: { new: 'nowa' }, :except => [:edit, :update] do
     member do
 		get 'stats', :path => 'wyniki'
 	end
