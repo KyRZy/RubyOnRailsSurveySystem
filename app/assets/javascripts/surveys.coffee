@@ -65,11 +65,12 @@ $(document).on "turbolinks:load", ->
         submit = true # wstępne pozwolenie na wysłanie formularza do serwera
         validation = true # formularz wstępnie zostaje oceniony jako poprawnie uzupełniony
         
-        $("input[type=text]").each( -> # usunięcie wszystkich błędów dla pól tekstowych
-            if $(this).parent().hasClass("has-error") # jeśli pole było zaznaczone jako błędne
-                $(this).parent().removeClass("has-error") # usunięcie błędu
-            if $(this).next().hasClass("input-group-btn") # jeśli dane pole miało przycisk usuwania
-                $(this).next().children().addClass("btn-default").removeClass("btn-danger") # podmiana przycisku z błędem na domyślny przycisk
+        $(".has-error").each( ->
+            $(this).removeClass("has-error")
+        )
+
+        $(".btn-danger").each( ->
+            $(this).removeClass("btn-danger").addClass("btn-default")
         )
 
         $("#survey_name, #survey_start_date, #survey_end_date").each( -> # sprawdzenie czy pola na nazwę ankiety, datę początku i końca ankiety zostały uzupełnione
@@ -116,7 +117,7 @@ $(document).on "turbolinks:load", ->
             submit = false
 
         answerValidation = true
-        $(".answers").each( ->
+        $(".answers").each( -> # sprawdzenie czy w którymś z pytań któraś z odpowiedzi nie występuje więcej niż jeden raz
             answerValuesArray = []
             $(this).find("input[type=text]").each( ->
                 hasError = false
