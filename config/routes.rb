@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 		get 'stats', :path => 'wyniki'
 	end
   end
-  devise_for :administrators, :path => 'uzytkownik'
+  devise_for :administrators, :path => 'uzytkownik', path_names: { sign_in: 'logowanie', sign_out: 'wylogowywanie', edit: 'profil' }
   get 'static_pages/help'
   post 'fill_survey' => 'surveys#fill', controller: 'surveys'
   root 'surveys#index'
