@@ -85,9 +85,7 @@ $(document).on "turbolinks:load", ->
 
         questionValidation = true
         questionValuesArray = []
-        $(".question input[type=text]").each( -> # sprawdzenie czy któreś z pytań nie zostało wpisane więcej niż jeden raz
-            if $(this).parents().eq(3).attr('id') == "new_question"
-                return
+        $("#survey-generator > div > .question input[type=text]").each( -> # sprawdzenie czy któreś z pytań nie zostało wpisane więcej niż jeden raz
             hasError = false
             if $(this).val() == ""
                 validation = false # formularz zostaje oceniony jako błędnie uzupełniony
@@ -119,9 +117,7 @@ $(document).on "turbolinks:load", ->
             submit = false
 
         answerValidation = true
-        $(".answers").each( -> # sprawdzenie czy w którymś z pytań któraś z odpowiedzi nie występuje więcej niż jeden raz
-            if $(this).parents().eq(1).attr('id') == "new_question"
-                return
+        $("#survey-generator .answers").each( -> # sprawdzenie czy w którymś z pytań któraś z odpowiedzi nie występuje więcej niż jeden raz
             answerValuesArray = []
             $(this).find("input[type=text]").each( ->
                 hasError = false
