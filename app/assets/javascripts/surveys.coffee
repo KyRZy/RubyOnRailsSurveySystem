@@ -86,6 +86,8 @@ $(document).on "turbolinks:load", ->
         questionValidation = true
         questionValuesArray = []
         $(".question input[type=text]").each( -> # sprawdzenie czy któreś z pytań nie zostało wpisane więcej niż jeden raz
+            if $(this).parents().eq(3).attr('id') == "new_question"
+                return
             hasError = false
             if $(this).val() == ""
                 validation = false # formularz zostaje oceniony jako błędnie uzupełniony
@@ -118,6 +120,8 @@ $(document).on "turbolinks:load", ->
 
         answerValidation = true
         $(".answers").each( -> # sprawdzenie czy w którymś z pytań któraś z odpowiedzi nie występuje więcej niż jeden raz
+            if $(this).parents().eq(1).attr('id') == "new_question"
+                return
             answerValuesArray = []
             $(this).find("input[type=text]").each( ->
                 hasError = false
@@ -188,7 +192,7 @@ $(document).on "turbolinks:load", ->
             $("html, body").animate({ scrollTop: 0 }, 200); # zescrollowanie do początku strony
             submit = false
         if submit
-            true
+            return confirm("Czy jesteś pewny, że chcesz zapisać ankietę?\nPo jej zapisie edycja pytań i odpowiedzi jest zablokowana.")
         else
             false
     $(".container").on "click", "button.close", ->
